@@ -5,9 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import labo.ShapeFactory.eShape;
-import labo.Circle;
-import labo.Rectangle;
+
 
 public class FactoryController {
 
@@ -38,18 +36,12 @@ public class FactoryController {
     @FXML
     private void circleButtonClicked(ActionEvent event) {
     	
-    	Shape shape = ShapeFactory.getShape(eShape.Circle,
-    			Integer.parseInt(widthField.getText()),
-    			Integer.parseInt(heightField.getText()) );   
-    	areaText.setText(""+shape.getArea());
+    	
     }
     
     @FXML
     private void rectangleButtonClicked(ActionEvent event) {
-    	Shape shape = ShapeFactory.getShape(eShape.Rectangle,
-    			Integer.parseInt(widthField.getText()),
-    			Integer.parseInt(heightField.getText()) );   
-    	areaText.setText(""+shape.getArea());
+    	
     }
     
 }
