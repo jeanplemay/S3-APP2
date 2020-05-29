@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Shape Factory" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="labo.FactoryController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+         <children>
+            <TextField fx:id="widthField" layoutX="272.0" layoutY="92.0" promptText="Width" />
+            <TextField fx:id="heightField" layoutX="272.0" layoutY="142.0" promptText="Height" />
+            <Label fx:id="widthLabel" layoutX="182.0" layoutY="96.0" text="Width" />
+            <Label fx:id="heightLabel" layoutX="182.0" layoutY="146.0" text="Height" />
+            <Button fx:id="circleButton" layoutX="253.0" layoutY="214.0" mnemonicParsing="false" onAction="#circleButtonClicked" text="Circle" />
+            <Button fx:id="rectangleButton" layoutX="347.0" layoutY="214.0" mnemonicParsing="false" onAction="#rectangleButtonClicked" text="Rectangle" />
+            <Label fx:id="areaLabel" layoutX="186.0" layoutY="285.0" text="Area" />
+            <TextField fx:id="areaText" layoutX="272.0" layoutY="281.0" />
+         </children></AnchorPane>
+  </content>
+</TitledPane>
