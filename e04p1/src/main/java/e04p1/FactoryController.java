@@ -11,6 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+
 public class FactoryController {
 
     @FXML
@@ -68,19 +72,48 @@ public class FactoryController {
 
     @FXML
     void menuDeleteClicked(ActionEvent event) {
-    	labelStatusBar.setText("Supression de l'élément...");
+    	labelStatusBar.setText("Supression de l'ï¿½lï¿½ment...");
     }
     
     @FXML
     void buttonAddClicked(ActionEvent event) {
-    	labelStatusBar.setText("Ajout d'un élément...");
+    	labelStatusBar.setText("Ajout d'un ï¿½lï¿½ment...");
     }
 
     @FXML
     void buttonFullScreenClicked(ActionEvent event) {
-    	labelStatusBar.setText("Activation du mode plein écran...");
+    	labelStatusBar.setText("Activation du mode plein ï¿½cran...");
     }
-
+    @FXML
+    void picture1Clicked(ActionEvent event) {
+    	labelStatusBar.setText("Image 1 selectionnÃ©");
+    }
+    @FXML
+    void picture2Clicked(ActionEvent event) {
+    	labelStatusBar.setText("Image 2 selectionnÃ©");
+    }
+    @FXML
+    void picture3Clicked(ActionEvent event) {
+    	labelStatusBar.setText("Image 3 selectionnÃ©");
+    }
+    @FXML
+    void picture4Clicked(ActionEvent event) {
+    	labelStatusBar.setText("Image 4 selectionnÃ©");
+    }
+    @FXML
+    void picture5Clicked(ActionEvent event) {
+    	labelStatusBar.setText("Image 5 selectionnÃ©");
+    }
+    @FXML
+    void picture6Clicked(ActionEvent event) {
+    	labelStatusBar.setText("Image 6 selectionnÃ©");
+    }
+    @FXML
+    void picture7Clicked(ActionEvent event) {
+    	labelStatusBar.setText("Image 7 selectionnÃ©");   
+    	ImageView image7 = new ImageView(new Image(Main.class.getResourceAsStream("Frog.png")));    	
+    	}
+	
 }
 
 
