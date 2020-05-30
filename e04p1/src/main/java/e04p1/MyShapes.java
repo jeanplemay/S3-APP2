@@ -4,10 +4,12 @@ import javafx.scene.shape.Shape;
 
 public class MyShapes {
 	public Shape shape;
-	public double x = 15;
-	public double y = 15;
+	public double x;
+	public double y;
 	MyShapes(Shape s)
 	{
 		shape = s;
+		x = 0;
+		y = 0;
 	}
 }
