@@ -1,6 +1,7 @@
 package e04p1;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +21,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 
 public class FactoryController {
@@ -95,48 +97,49 @@ public class FactoryController {
 
     @FXML
     void menuDeleteClicked(ActionEvent event) {
-    	labelStatusBar.setText("Supression de l'élément...");
+    	labelStatusBar.setText("Supression de l'ï¿½lï¿½ment...");
     }
     
     @FXML
     void buttonAddClicked(ActionEvent event) {
-    	labelStatusBar.setText("Ajout d'un élément...");
+    	labelStatusBar.setText("Ajout d'un ï¿½lï¿½ment...");
     }
 
     @FXML
     void buttonFullScreenClicked(ActionEvent event) {
-    	labelStatusBar.setText("Activation du mode plein écran...");
+    	labelStatusBar.setText("Activation du mode plein ï¿½cran...");
     }
     @FXML
     void picture1Clicked(ActionEvent event) {
-    	labelStatusBar.setText("Image 1 selectionné");
+    	labelStatusBar.setText("Image 1 selectionnï¿½");
     }
     @FXML
     void picture2Clicked(ActionEvent event) {
-    	labelStatusBar.setText("Image 2 selectionné");
+    	labelStatusBar.setText("Image 2 selectionnï¿½");
     }
     @FXML
     void picture3Clicked(ActionEvent event) {
-    	labelStatusBar.setText("Image 3 selectioné");
+    	labelStatusBar.setText("Image 3 selectionï¿½");
     }
     @FXML
     void picture4Clicked(ActionEvent event) {
-    	labelStatusBar.setText("Image 4 selectionné");
+    	labelStatusBar.setText("Image 4 selectionnï¿½");
     }
     @FXML
     void picture5Clicked(ActionEvent event) {
-    	labelStatusBar.setText("Image 5 selectionné");
+    	labelStatusBar.setText("Image 5 selectionnï¿½");
     }
     @FXML
     void picture6Clicked(ActionEvent event) {
-    	labelStatusBar.setText("Image 6 selectionné");
+    	labelStatusBar.setText("Image 6 selectionnï¿½");
     }
     @FXML
     void picture7Clicked(ActionEvent event) {
-    	labelStatusBar.setText("Image 7 selectionné");   
+    	labelStatusBar.setText("Image 7 selectionnï¿½");   
     	ImageView image7 = new ImageView(new Image(Main.class.getResourceAsStream("Frog.png")));    	
     	}
-    
+    double x;
+    double y;
     @FXML
     void initialize() {
     	
@@ -146,6 +149,35 @@ public class FactoryController {
     	oval.setStroke(Color.web("005000"));
     	oval.setStrokeWidth(b);
     	gridPane1.add(oval, 0, 0);
+    	
+    	gridPane1.getChildren().get(0).setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event) {
+				Shape oval1 = new Ellipse(a,a/2);
+		    	oval1.setFill(Color.web("98FB98"));
+		    	oval1.setStroke(Color.web("005000"));
+		    	oval1.setStrokeWidth(b);
+		    	x = 15;
+		    	y = 15;
+		    	paneDessin.getChildren().add(oval1);
+		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(x);
+		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(y);
+		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						x += event.getX();
+						y += event.getY();
+						paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(x);
+						paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(y);	
+					}
+		    	});
+			}
+    		
+    	});
+    	
+    
+    	
     	
     	//Mono-physical converter
     	Shape rectangle = new Rectangle(a,a);
