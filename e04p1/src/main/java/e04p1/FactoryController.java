@@ -1,8 +1,11 @@
 package e04p1;
 
+import java.util.Vector;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -143,6 +146,9 @@ public class FactoryController {
     @FXML
     void initialize() {
     	
+    	
+    	Vector<MyShapes> v = new Vector<MyShapes>();
+    	
     	//Energy source
     	Shape oval = new Ellipse(a,a/2);
     	oval.setFill(Color.web("98FB98"));
@@ -150,34 +156,48 @@ public class FactoryController {
     	oval.setStrokeWidth(b);
     	gridPane1.add(oval, 0, 0);
     	
-    	gridPane1.getChildren().get(0).setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	
+    	oval.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
-			public void handle(MouseEvent event) {
-				Shape oval1 = new Ellipse(a,a/2);
-		    	oval1.setFill(Color.web("98FB98"));
-		    	oval1.setStroke(Color.web("005000"));
-		    	oval1.setStrokeWidth(b);
-		    	x = 15;
-		    	y = 15;
-		    	paneDessin.getChildren().add(oval1);
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(x);
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(y);
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent event)
+			{
+				
+				Shape oval = new Ellipse(a,a/2);
+		    	oval.setFill(Color.web("98FB98"));
+		    	oval.setStroke(Color.web("005000"));
+		    	oval.setStrokeWidth(b);
+		    	MyShapes MSoval1 = new MyShapes(oval);
+		    	v.add(MSoval1);
+		    	paneDessin.getChildren().add(oval);	
+		    	
+		    	
+		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(v.lastElement().x);
+		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(v.lastElement().y);
+		    	
+		    	
+		    	
+		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
+		    	{
 					@Override
-					public void handle(MouseEvent event) {
-						x += event.getX();
-						y += event.getY();
-						paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(x);
-						paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(y);	
+					public void handle(MouseEvent event) 
+					{
+						for(int i = 0; i < v.size(); i++)
+						{
+							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
+							{
+								v.elementAt(i).x += event.getX();
+								v.elementAt(i).y += event.getY();
+								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
+								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
+							}
+						}
+
+						
 					}
 		    	});
-			}
-    		
+			}   		
     	});
-    	
-    
-    	
     	
     	//Mono-physical converter
     	Shape rectangle = new Rectangle(a,a);
