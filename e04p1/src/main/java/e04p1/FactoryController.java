@@ -139,14 +139,11 @@ public class FactoryController {
     @FXML
     void picture7Clicked(ActionEvent event) {
     	labelStatusBar.setText("Image 7 selectionn�");   
-    	ImageView image7 = new ImageView(new Image(Main.class.getResourceAsStream("Frog.png")));    	
     	}
-    double x;
-    double y;
+
     @FXML
     void initialize() {
-    	
-    	
+
     	Vector<MyShapes> v = new Vector<MyShapes>();
     	
     	//Energy source
@@ -155,28 +152,24 @@ public class FactoryController {
     	oval.setStroke(Color.web("005000"));
     	oval.setStrokeWidth(b);
     	gridPane1.add(oval, 0, 0);
-    	
-    	
+    	    	
     	oval.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
-			{
-				
+			{				
 				Shape oval = new Ellipse(a,a/2);
 		    	oval.setFill(Color.web("98FB98"));
 		    	oval.setStroke(Color.web("005000"));
 		    	oval.setStrokeWidth(b);
-		    	MyShapes MSoval1 = new MyShapes(oval);
-		    	v.add(MSoval1);
 		    	paneDessin.getChildren().add(oval);	
 		    	
-		    	
+		    	MyShapes MSoval = new MyShapes(oval);
+		    	v.add(MSoval);
+		    		    			    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(v.lastElement().x);
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(v.lastElement().y);
-		    	
-		    	
-		    	
+	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
 					@Override
@@ -199,12 +192,52 @@ public class FactoryController {
 			}   		
     	});
     	
+    	
     	//Mono-physical converter
     	Shape rectangle = new Rectangle(a,a);
     	rectangle.setFill(Color.web("FFD700"));
     	rectangle.setStroke(Color.web("FF0000"));
     	rectangle.setStrokeWidth(b);
     	gridPane1.add(rectangle, 1, 0);
+    	
+    	rectangle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event)
+			{				
+		    	Shape rectangle = new Rectangle(a,a);
+		    	rectangle.setFill(Color.web("FFD700"));
+		    	rectangle.setStroke(Color.web("FF0000"));
+		    	rectangle.setStrokeWidth(b);
+		    	paneDessin.getChildren().add(rectangle);	
+		    	
+		    	MyShapes MSrectangle = new MyShapes(rectangle);
+		    	v.add(MSrectangle);
+		    		    			    	
+		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(v.lastElement().x);
+		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(v.lastElement().y);
+	    	
+		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
+		    	{
+					@Override
+					public void handle(MouseEvent event) 
+					{
+						for(int i = 0; i < v.size(); i++)
+						{
+							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
+							{
+								v.elementAt(i).x += event.getX();
+								v.elementAt(i).y += event.getY();
+								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
+								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
+							}
+						}
+
+						
+					}
+		    	});
+			}   		
+    	});
     	
     	//Multi-physical converter
     	Shape circle = new Circle(a/2);
@@ -312,10 +345,6 @@ public class FactoryController {
     	shape7.setStroke(Color.web("0000FF"));
     	shape7.setStrokeWidth(b/2.0);
     	gridPane4.add(shape7, 1, 2);
-    	
-    	
-
-
     }
 	
 }
