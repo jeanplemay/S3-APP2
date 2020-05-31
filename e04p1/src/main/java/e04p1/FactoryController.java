@@ -2,6 +2,7 @@ package e04p1;
 
 import java.util.Vector;
 
+import e04p1.MyShapes.EShape;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,10 +18,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 import javafx.scene.input.MouseEvent;
@@ -28,12 +25,9 @@ import javafx.scene.input.MouseEvent;
 //This class makes part of the design pattern MVC togheter with class MyShapes and scene.fxml
 public class FactoryController {
 	
-	static final int a = 21;
-	static final int b = 2;
-	static final int c = 30;
 	
 	Vector<MyShapes> v;
-
+	
     @FXML
     private MenuItem menuDelete;
 
@@ -120,26 +114,18 @@ public class FactoryController {
     	v = new Vector<MyShapes>();  	
     	
     	//Energy source
-    	Shape oval = new Ellipse(a,a/2);
-    	oval.setFill(Color.web("98FB98"));
-    	oval.setStroke(Color.web("005000"));
-    	oval.setStrokeWidth(b);
-    	gridPane1.add(oval, 0, 0);
-    	    	
-    	oval.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	MyShapes energySource = new MyShapes(EShape.EnergySource);
+    	gridPane1.add(energySource.getShape(), 0, 0);
+	
+    	energySource.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape oval = new Ellipse(a,a/2);
-		    	oval.setFill(Color.web("98FB98"));
-		    	oval.setStroke(Color.web("005000"));
-		    	oval.setStrokeWidth(b);
-		    	paneDessin.getChildren().add(oval);	
-		    	
-		    	MyShapes MSoval = new MyShapes(oval);
-		    	v.add(MSoval);
-		    		    	    		    	
+		    	MyShapes energySource = new MyShapes(EShape.EnergySource);
+		    	v.add(energySource);
+		    	paneDessin.getChildren().add(energySource.getShape());	
+		    			    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
 					@Override
@@ -153,26 +139,18 @@ public class FactoryController {
     	
     	
     	//Mono-physical converter
-    	Shape rectangle = new Rectangle(a,a);
-    	rectangle.setFill(Color.web("FFD700"));
-    	rectangle.setStroke(Color.web("FF0000"));
-    	rectangle.setStrokeWidth(b);
-    	gridPane1.add(rectangle, 1, 0);
+    	MyShapes monoPhysicalConverter = new MyShapes(EShape.MonoPhysicalConverter);
+    	gridPane1.add(monoPhysicalConverter.getShape(), 1, 0);
     	
-    	rectangle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalConverter.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-		    	Shape rectangle = new Rectangle(a,a);
-		    	rectangle.setFill(Color.web("FFD700"));
-		    	rectangle.setStroke(Color.web("FF0000"));
-		    	rectangle.setStrokeWidth(b);
-		    	paneDessin.getChildren().add(rectangle);	
+				MyShapes monoPhysicalConverter = new MyShapes(EShape.MonoPhysicalConverter);
+				v.add(monoPhysicalConverter);
+		    	paneDessin.getChildren().add(monoPhysicalConverter.getShape());	
 		    	
-		    	MyShapes MSrectangle = new MyShapes(rectangle);
-		    	v.add(MSrectangle);
-		    		    			    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
 					@Override
@@ -185,25 +163,17 @@ public class FactoryController {
     	});
     	
     	//Multi-physical converter
-    	Shape circle = new Circle(a/2);
-    	circle.setFill(Color.web("FFD700"));
-    	circle.setStroke(Color.web("FF0000"));
-    	circle.setStrokeWidth(b);
-    	gridPane1.add(circle, 0, 1);
+    	MyShapes multiPhysicalConverter = new MyShapes(EShape.MultiPhysicalConverter);
+    	gridPane1.add(multiPhysicalConverter.getShape(), 0, 1);
     	
-    	circle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalConverter.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
     			@Override
     			public void handle(MouseEvent event)
     			{				
-    				Shape circle = new Circle(a/2);
-    		    	circle.setFill(Color.web("FFD700"));
-    		    	circle.setStroke(Color.web("FF0000"));
-    		    	circle.setStrokeWidth(b);
-    		    	paneDessin.getChildren().add(circle);	
-    		    	
-    		    	MyShapes MScircle = new MyShapes(circle);
-    		    	v.add(MScircle);
+    				MyShapes multiPhysicalConverter = new MyShapes(EShape.MultiPhysicalConverter);
+    				v.add(multiPhysicalConverter);
+    		    	paneDessin.getChildren().add(multiPhysicalConverter.getShape());	
     		    		    			    	    	    	
     		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
     		    	{
@@ -217,26 +187,18 @@ public class FactoryController {
         	});    	
     	
     	//Energy accumulation
-    	Shape shape = Shape.subtract(new Rectangle(a/2,a), new Line(a/2,0,0,a));
-    	shape.setFill(Color.web("FFD700"));
-    	shape.setStroke(Color.web("FF0000"));
-    	shape.setStrokeWidth(b);
-    	gridPane1.add(shape, 1, 1);
+    	MyShapes energyAccumulation = new MyShapes(EShape.EnergyAccumulation);
+    	gridPane1.add(energyAccumulation.getShape(), 1, 1);
     	
-    	shape.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energyAccumulation.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape shape = Shape.subtract(new Rectangle(a/2,a), new Line(a/2,0,0,a));
-		    	shape.setFill(Color.web("FFD700"));
-		    	shape.setStroke(Color.web("FF0000"));
-		    	shape.setStrokeWidth(b);
-		    	paneDessin.getChildren().add(shape);	
+				MyShapes energyAccumulation = new MyShapes(EShape.EnergyAccumulation);
+				v.add(energyAccumulation);
+		    	paneDessin.getChildren().add(energyAccumulation.getShape());	
 		    	
-		    	MyShapes MSshape = new MyShapes(shape);
-		    	v.add(MSshape);
-	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
 					@Override
@@ -249,26 +211,18 @@ public class FactoryController {
     	});
     	
     	//Mono-physical coupling
-    	Shape shape2 = Shape.union(new Rectangle(a,a), new Rectangle(a*2/3,a*2/3,a,a));
-    	shape2.setFill(Color.web("FFD700"));
-    	shape2.setStroke(Color.web("FF0000"));
-    	shape2.setStrokeWidth(b);
-    	gridPane1.add(shape2, 0, 2);
+    	MyShapes monoPhysicalCoupling = new MyShapes(EShape.MonoPhysicalCoupling);
+    	gridPane1.add(monoPhysicalCoupling.getShape(), 0, 2);
     	
-    	shape2.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalCoupling.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
-			{				
-				Shape shape2 = Shape.union(new Rectangle(a,a), new Rectangle(a*2/3,a*2/3,a,a));
-		    	shape2.setFill(Color.web("FFD700"));
-		    	shape2.setStroke(Color.web("FF0000"));
-		    	shape2.setStrokeWidth(b);
-		    	paneDessin.getChildren().add(shape2);	
-		    	
-		    	MyShapes MSshape2 = new MyShapes(shape2);
-		    	v.add(MSshape2);
-	    	
+			{		
+				MyShapes monoPhysicalCoupling = new MyShapes(EShape.MonoPhysicalCoupling);
+				v.add(monoPhysicalCoupling);
+		    	paneDessin.getChildren().add(monoPhysicalCoupling.getShape());	
+		
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
 					@Override
@@ -281,25 +235,17 @@ public class FactoryController {
     	});
     	
     	//Multi-physical coupling
-    	Shape shape3 = Shape.union( new Circle(a/2),  new Circle(0,a*2/3,a/2));
-    	shape3.setFill(Color.web("FFD700"));
-    	shape3.setStroke(Color.web("FF0000"));
-    	shape3.setStrokeWidth(b);
-    	gridPane1.add(shape3, 1, 2);
+    	MyShapes multiPhysicalCoupling = new MyShapes(EShape.MultiPhysicalCoupling);
+    	gridPane1.add(multiPhysicalCoupling.getShape(), 1, 2);
     	
-    	shape3.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalCoupling.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape shape3 = Shape.union( new Circle(a/2),  new Circle(0,a*2/3,a/2));
-		    	shape3.setFill(Color.web("FFD700"));
-		    	shape3.setStroke(Color.web("FF0000"));
-		    	shape3.setStrokeWidth(b); 
-		    	paneDessin.getChildren().add(shape3);	
-		    	
-		    	MyShapes MSshape3 = new MyShapes(shape3); 
-		    	v.add(MSshape3);
+				MyShapes multiPhysicalCoupling = new MyShapes(EShape.MultiPhysicalCoupling);
+				v.add(multiPhysicalCoupling);
+		    	paneDessin.getChildren().add(multiPhysicalCoupling.getShape());	
 	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
@@ -313,36 +259,18 @@ public class FactoryController {
     	});
     	
     	//Direct inversion
-    	Shape polygon = new Polygon(
-        		a/4.0,0.0,
-        		a*5.0/4.0,0.0,
-        		a*1.0,a*1.0,
-        		0.0,a*1.0
-        		);
-    	polygon.setFill(Color.web("87CEEB"));
-    	polygon.setStroke(Color.web("0000FF"));
-    	polygon.setStrokeWidth(b/2.0);
-    	gridPane2.add(polygon, 0, 0);
+    	MyShapes directInversion = new MyShapes(EShape.DirectInversion);
+    	gridPane2.add(directInversion.getShape(), 0, 0);
     	
-    	polygon.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	directInversion.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape polygon = new Polygon(
-		        		a/4.0,0.0,
-		        		a*5.0/4.0,0.0,
-		        		a*1.0,a*1.0,
-		        		0.0,a*1.0
-		        		);
-		    	polygon.setFill(Color.web("87CEEB"));
-		    	polygon.setStroke(Color.web("0000FF"));
-		    	polygon.setStrokeWidth(b/2.0);
-		    	paneDessin.getChildren().add(polygon);	
-		    	
-		    	MyShapes MSpolygon = new MyShapes(polygon); 
-		    	v.add(MSpolygon);
-	    	
+				MyShapes directInversion = new MyShapes(EShape.DirectInversion);
+				v.add(directInversion);
+		    	paneDessin.getChildren().add(directInversion.getShape());	
+
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
 					@Override
@@ -356,37 +284,17 @@ public class FactoryController {
     	
     	
     	//Indirect inversion
-    	Shape polygon2 = new Polygon(
-        		a/4.0,0.0,
-        		a*5.0/4.0,0.0,
-        		a*1.0,a*1.0,
-        		0.0,a*1.0
-        		);
-    	Shape shape4 = Shape.subtract(polygon2, new Line(a/4,0,a,a));
-    	shape4.setFill(Color.web("87CEEB"));
-    	shape4.setStroke(Color.web("0000FF"));
-    	shape4.setStrokeWidth(b/2.0);
-    	gridPane2.add(shape4, 1, 0);
+    	MyShapes indirectInversion = new MyShapes(EShape.IndirectInversion);
+    	gridPane2.add(indirectInversion.getShape(), 1, 0);
     	
-    	shape4.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	indirectInversion.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape polygon2 = new Polygon(
-		        		a/4.0,0.0,
-		        		a*5.0/4.0,0.0,
-		        		a*1.0,a*1.0,
-		        		0.0,a*1.0
-		        		);
-		    	Shape shape4 = Shape.subtract(polygon2, new Line(a/4,0,a,a));
-		    	shape4.setFill(Color.web("87CEEB"));
-		    	shape4.setStroke(Color.web("0000FF"));
-		    	shape4.setStrokeWidth(b/2.0);
-		    	paneDessin.getChildren().add(shape4);	
-		    	
-		    	MyShapes MSshape4 = new MyShapes(shape4); 
-		    	v.add(MSshape4);
+				MyShapes indirectInversion = new MyShapes(EShape.IndirectInversion);
+				v.add(indirectInversion);
+		    	paneDessin.getChildren().add(indirectInversion.getShape());	
 	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
@@ -400,35 +308,17 @@ public class FactoryController {
     	});
     	
     	//Strategy
-    	Shape polygon3 = new Polygon(
-        		a/4.0,0.0,
-        		a*13.0/4.0,0.0,
-        		a*3.0,a*1.0,
-        		0.0,a*1.0
-        		);
-    	polygon3.setFill(Color.web("0000FF"));
-    	polygon3.setStroke(Color.web("0000FF"));
-    	polygon3.setStrokeWidth(b/2.0);
-    	gridPane3.add(polygon3, 0, 0);
+    	MyShapes strategy = new MyShapes(EShape.Strategy);
+    	gridPane3.add(strategy.getShape(), 0, 0);
     	
-    	polygon3.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	strategy.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape polygon3 = new Polygon(
-		        		a/4.0,0.0,
-		        		a*13.0/4.0,0.0,
-		        		a*3.0,a*1.0,
-		        		0.0,a*1.0
-		        		);
-		    	polygon3.setFill(Color.web("0000FF"));
-		    	polygon3.setStroke(Color.web("0000FF"));
-		    	polygon3.setStrokeWidth(b/2.0);
-		    	paneDessin.getChildren().add(polygon3);	
-		    	
-		    	MyShapes MSpolygon3 = new MyShapes(polygon3); 
-		    	v.add(MSpolygon3);
+				MyShapes strategy = new MyShapes(EShape.Strategy);
+				v.add(strategy);
+		    	paneDessin.getChildren().add(strategy.getShape());	
 	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
@@ -442,25 +332,17 @@ public class FactoryController {
     	});
     	
     	//Energy source estimator
-    	Shape oval2 = new Ellipse(a,a/2);
-    	oval2.setFill(Color.web("EE82EE"));
-    	oval2.setStroke(Color.web("0000FF"));
-    	oval2.setStrokeWidth(b/2.0);
-    	gridPane4.add(oval2,0,0);
+    	MyShapes energySourceEstimator = new MyShapes(EShape.EnergySourceEstimator);
+    	gridPane4.add(energySourceEstimator.getShape(),0,0);
     	
-    	oval2.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energySourceEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape oval2 = new Ellipse(a,a/2);
-		    	oval2.setFill(Color.web("EE82EE"));
-		    	oval2.setStroke(Color.web("0000FF"));
-		    	oval2.setStrokeWidth(b/2.0);		   
-		    	paneDessin.getChildren().add(oval2);	
-		    	
-		    	MyShapes MSoval2 = new MyShapes(oval2); 
-		    	v.add(MSoval2);
+				MyShapes energySourceEstimator = new MyShapes(EShape.EnergySourceEstimator);
+				v.add(energySourceEstimator);
+		    	paneDessin.getChildren().add(energySourceEstimator.getShape());	
 	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
@@ -474,26 +356,18 @@ public class FactoryController {
     	});
     	
     	//Mono-physical converter estimator
-    	Shape rectangle5 = new Rectangle(a,a);
-    	rectangle5.setFill(Color.web("EE82EE"));
-    	rectangle5.setStroke(Color.web("0000FF"));
-    	rectangle5.setStrokeWidth(b/2.0);
-    	gridPane4.add(rectangle5, 1, 0);
+    	MyShapes monoPhysicalConverterEstimator = new MyShapes(EShape.MonoPhysicalConverterEstimator);
+    	gridPane4.add(monoPhysicalConverterEstimator.getShape(), 1, 0);
     	
-    	rectangle5.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalConverterEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape rectangle5 = new Rectangle(a,a);
-		    	rectangle5.setFill(Color.web("EE82EE"));
-		    	rectangle5.setStroke(Color.web("0000FF"));
-		    	rectangle5.setStrokeWidth(b/2.0);	   
-		    	paneDessin.getChildren().add(rectangle5);	
-		    	
-		    	MyShapes MSrectangle5 = new MyShapes(rectangle5); 
-		    	v.add(MSrectangle5);
-	    	
+				MyShapes monoPhysicalConverterEstimator = new MyShapes(EShape.MonoPhysicalConverterEstimator);
+				v.add(monoPhysicalConverterEstimator);
+		    	paneDessin.getChildren().add(monoPhysicalConverterEstimator.getShape());	
+
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
 					@Override
@@ -506,25 +380,17 @@ public class FactoryController {
     	});    	
     	
     	//Multi-physical converter estimator
-    	Shape circle2 = new Circle(a/2);
-    	circle2.setFill(Color.web("EE82EE"));
-    	circle2.setStroke(Color.web("0000FF"));
-    	circle2.setStrokeWidth(b/2.0);
-    	gridPane4.add(circle2, 0, 1);
+    	MyShapes multiPhysicalConverterEstimator = new MyShapes(EShape.MultiPhysicalConverterEstimator);
+    	gridPane4.add(multiPhysicalConverterEstimator.getShape(), 0, 1);
     	
-    	circle2.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalConverterEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape circle2 = new Circle(a/2);
-		    	circle2.setFill(Color.web("EE82EE"));
-		    	circle2.setStroke(Color.web("0000FF"));
-		    	circle2.setStrokeWidth(b/2.0);	   
-		    	paneDessin.getChildren().add(circle2);	
-		    	
-		    	MyShapes MScircle2 = new MyShapes(circle2); 
-		    	v.add(MScircle2);
+				MyShapes multiPhysicalConverterEstimator = new MyShapes(EShape.MultiPhysicalConverterEstimator);
+				v.add(multiPhysicalConverterEstimator);
+		    	paneDessin.getChildren().add(multiPhysicalConverterEstimator.getShape());	
 	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
@@ -538,25 +404,17 @@ public class FactoryController {
     	});
     	
     	//Energy accumulation estimator
-    	Shape shape5 = Shape.subtract(new Rectangle(a/2,a), new Line(a/2,0,0,a));
-    	shape5.setFill(Color.web("EE82EE"));
-    	shape5.setStroke(Color.web("0000FF"));
-    	shape5.setStrokeWidth(b/2.0);
-    	gridPane4.add(shape5, 1, 1);
+    	MyShapes energyAccumulationEstimator = new MyShapes(EShape.EnergyAccumulationEstimator);
+    	gridPane4.add(energyAccumulationEstimator.getShape(), 1, 1);
     	
-    	shape5.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energyAccumulationEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape shape5 = Shape.subtract(new Rectangle(a/2,a), new Line(a/2,0,0,a));
-		    	shape5.setFill(Color.web("EE82EE"));
-		    	shape5.setStroke(Color.web("0000FF"));
-		    	shape5.setStrokeWidth(b/2.0);  
-		    	paneDessin.getChildren().add(shape5);	
-		    	
-		    	MyShapes MSshape5 = new MyShapes(shape5); 
-		    	v.add(MSshape5);
+				MyShapes energyAccumulationEstimator = new MyShapes(EShape.EnergyAccumulationEstimator);
+				v.add(energyAccumulationEstimator);
+		    	paneDessin.getChildren().add(energyAccumulationEstimator.getShape());	
 	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
@@ -570,25 +428,17 @@ public class FactoryController {
     	});
     	 
     	//Mono-physical coupling estimator
-    	Shape shape6 = Shape.union(new Rectangle(a,a), new Rectangle(a*2/3,a*2/3,a,a));
-    	shape6.setFill(Color.web("EE82EE"));
-    	shape6.setStroke(Color.web("0000FF"));
-    	shape6.setStrokeWidth(b/2.0);
-    	gridPane4.add(shape6, 0, 2);
+    	MyShapes monoPhysicalCouplingEstimator = new MyShapes(EShape.MonoPhysicalCouplingEstimator);
+    	gridPane4.add(monoPhysicalCouplingEstimator.getShape(), 0, 2);
     	
-    	shape6.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalCouplingEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape shape6 = Shape.union(new Rectangle(a,a), new Rectangle(a*2/3,a*2/3,a,a));
-		    	shape6.setFill(Color.web("EE82EE"));
-		    	shape6.setStroke(Color.web("0000FF"));
-		    	shape6.setStrokeWidth(b/2.0);
-		    	paneDessin.getChildren().add(shape6);	
-		    	
-		    	MyShapes MSshape6 = new MyShapes(shape6); 
-		    	v.add(MSshape6);
+				MyShapes monoPhysicalCouplingEstimator = new MyShapes(EShape.MonoPhysicalCouplingEstimator);
+				v.add(monoPhysicalCouplingEstimator);
+		    	paneDessin.getChildren().add(monoPhysicalCouplingEstimator.getShape());	
 	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
@@ -602,25 +452,17 @@ public class FactoryController {
     	});    	
     	
     	//Multi-physical coupling estimator
-    	Shape shape7 = Shape.union( new Circle(a/2),  new Circle(0,a*2/3,a/2));
-    	shape7.setFill(Color.web("EE82EE"));
-    	shape7.setStroke(Color.web("0000FF"));
-    	shape7.setStrokeWidth(b/2.0);
-    	gridPane4.add(shape7, 1, 2);
+    	MyShapes multiPhysicalCouplingEstimator = new MyShapes(EShape.MultiPhysicalCouplingEstimator);
+    	gridPane4.add(multiPhysicalCouplingEstimator.getShape(), 1, 2);
     	
-    	shape7.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalCouplingEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				Shape shape7 = Shape.union( new Circle(a/2),  new Circle(0,a*2/3,a/2));
-		    	shape7.setFill(Color.web("EE82EE"));
-		    	shape7.setStroke(Color.web("0000FF"));
-		    	shape7.setStrokeWidth(b/2.0);
-		    	paneDessin.getChildren().add(shape7);	
-		    	
-		    	MyShapes MSshape7 = new MyShapes(shape7); 
-		    	v.add(MSshape7);
+				MyShapes multiPhysicalCouplingEstimator = new MyShapes(EShape.MultiPhysicalCouplingEstimator);
+				v.add(multiPhysicalCouplingEstimator);
+		    	paneDessin.getChildren().add(multiPhysicalCouplingEstimator.getShape());
 	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
@@ -631,7 +473,8 @@ public class FactoryController {
 					}
 		    	});
 			}   		
-    	});   	
+    	});
+    	
     }
     
 	public void move(MouseEvent event) 
