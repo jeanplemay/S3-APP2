@@ -32,13 +32,15 @@ public class MyShapes extends Group {
 	
 	public double x;
 	public double y;
+	public int index;
 	public EShape myEShape;
 	
 	MyShapes(EShape eshape)
 	{
 		this.x = 0;
 		this.y = 0;
-		myEShape = eshape;
+		this.myEShape = eshape;
+		this.index = 0;
 			
 		switch(eshape)
 		{
@@ -268,5 +270,13 @@ public class MyShapes extends Group {
 
 	public void setY(double y) {
 		this.y = y;
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int i) {
+		this.index = i;
 	}
 }

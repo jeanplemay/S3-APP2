@@ -1,8 +1,14 @@
 package e04p1;
 
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+
 import e04p1.MyShapes.EShape;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -22,6 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -37,6 +46,10 @@ public class FactoryController {
 	EShape draggedShape;
 	
 	int draggedIndex;
+	
+	int deleteIndex;
+	
+	int Vindex;
 	
 	Border myBorder;
 	
@@ -99,7 +112,33 @@ public class FactoryController {
 
     @FXML
     private Button buttonAdd;
+    
+    @FXML  
+    private Button Save;
+   
+    @FXML
+    void Save(ActionEvent event)
+    {
+    	labelStatusBar.setText("Saving...");
+    	FileChooser fileChooser = new FileChooser();
 
+        //Set extension filter
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
+
+        //Prompt user to select a file
+        File file = fileChooser.showSaveDialog(null);
+
+        if(file != null){
+            try {                
+                WritableImage writableImage = new WritableImage((int)paneDessin.getWidth() , (int)paneDessin.getHeight());
+                Image canvas = paneDessin.snapshot(null, writableImage);
+                RenderedImage renderedImage = SwingFXUtils.fromFXImage(canvas, null);
+                ImageIO.write(renderedImage, "png", file);
+                labelStatusBar.setText("Saved");
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+    }
+    
     @FXML
     void menuCloseClicked(ActionEvent event) {
     	labelStatusBar.setText("Fermeture de l'application...");
@@ -122,16 +161,16 @@ public class FactoryController {
 
     @FXML
     void initialize() {
-    	
+    	Vindex = 0;
     	v = new Vector<MyShapes>();  
-    	myBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(2.5)));
+    	myBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5)));
     	
     	paneDessin.setBorder(myBorder);
     	paneDessin.setOnDragEntered(new EventHandler<DragEvent>() {
 			@Override	
 			public void handle(DragEvent event) {			
 				event.acceptTransferModes(TransferMode.ANY);
-		    	paneDessin.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(2.5))));
+		    	paneDessin.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5))));
 			}	
     	});
     	paneDessin.setOnDragExited(new EventHandler<DragEvent>() {
@@ -399,8 +438,7 @@ public class FactoryController {
 			}    		
     	}); 
     }
-   
-	
+   	
 	public void addShape(EShape eshape, double x, double y)
 	{
 		MyShapes myShape = new MyShapes(eshape);
@@ -408,11 +446,11 @@ public class FactoryController {
 		paneDessin.getChildren().add(myShape);	
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(x);
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(y);
-		
+		//myShape.setIndex(Vindex);
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnDragDetected(new EventHandler<MouseEvent>(){
 
 			@Override
-			public void handle(MouseEvent event) {
+			public void handle(MouseEvent event) {				
 				Dragboard db = paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
@@ -432,8 +470,9 @@ public class FactoryController {
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnDragDone(new EventHandler<DragEvent>() {
 
 			@Override
-			public void handle(DragEvent event) {				
-				paneDessin.getChildren().remove(draggedIndex);				
+			public void handle(DragEvent event) {
+				//v.remove(((MyShapes) paneDessin.getChildren().get(draggedIndex)).getIndex());
+				paneDessin.getChildren().remove(draggedIndex);					
 			}
 			
 		});
