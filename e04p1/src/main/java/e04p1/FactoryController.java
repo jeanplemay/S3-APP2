@@ -36,6 +36,8 @@ public class FactoryController {
 	
 	EShape draggedShape;
 	
+	Border myBorder;
+	
     @FXML
     private MenuItem menuDelete;
 
@@ -115,15 +117,17 @@ public class FactoryController {
     void buttonFullScreenClicked(ActionEvent event) {
     	labelStatusBar.setText("Activation du mode plein �cran...");
     }
-    boolean success;
+
     @FXML
     void initialize() {
-    	//MouseControlUtil.makeDraggable();
-    	paneDessin.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(2.5))));
+    	
+    	v = new Vector<MyShapes>();  
+    	myBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(2.5)));
+    	
+    	paneDessin.setBorder(myBorder);
     	paneDessin.setOnDragEntered(new EventHandler<DragEvent>() {
 			@Override	
-			public void handle(DragEvent event) {
-				labelStatusBar.setText("DragOnPaneDessin");
+			public void handle(DragEvent event) {			
 				event.acceptTransferModes(TransferMode.ANY);
 		    	paneDessin.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(2.5))));
 			}	
@@ -131,7 +135,7 @@ public class FactoryController {
     	paneDessin.setOnDragExited(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(DragEvent event) {
-				paneDessin.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(2.5))));			
+				paneDessin.setBorder(myBorder);
 			}
     		
     	});
@@ -149,19 +153,14 @@ public class FactoryController {
                 }  		
     	});
 
-
-    	v = new Vector<MyShapes>();  	
-    	
     	//Energy source
     	MyShapes energySource = new MyShapes(EShape.EnergySource);
     	gridPane1.add(energySource, 0, 0);
-    	
-    	
+    	    	
     	energySource.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {				
-				labelStatusBar.setText("EnergySourceDrag");
 				Dragboard db = energySource.startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
@@ -169,216 +168,234 @@ public class FactoryController {
 				draggedShape = EShape.EnergySource;		
 			}    		
     	});
-	
-    	/*energySource.setOnMouseClicked(new EventHandler<MouseEvent>(){
-
-			@Override
-			public void handle(MouseEvent event)
-			{				
-		    	addShape(EShape.EnergySource);
-		    	event.consume();
-		    	labelStatusBar.setText("EnergySource");
-			}   		
-    	});*/
-    	
-   	
+ 	
     	//Mono-physical converter
- /*   	MyShapes monoPhysicalConverter = new MyShapes(EShape.MonoPhysicalConverter);
+    	MyShapes monoPhysicalConverter = new MyShapes(EShape.MonoPhysicalConverter);
     	gridPane1.add(monoPhysicalConverter, 1, 0);
     	
-    	monoPhysicalConverter.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalConverter.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.MonoPhysicalConverter);
-				event.consume();
-			}   		
+			public void handle(MouseEvent event) {				
+				Dragboard db = monoPhysicalConverter.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.MonoPhysicalConverter;		
+			}    		
     	});
     	
     	//Multi-physical converter
     	MyShapes multiPhysicalConverter = new MyShapes(EShape.MultiPhysicalConverter);
     	gridPane1.add(multiPhysicalConverter, 0, 1);
     	
-    	multiPhysicalConverter.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalConverter.setOnDragDetected(new EventHandler<MouseEvent>() {
 
-    			@Override
-    			public void handle(MouseEvent event)
-    			{				
-    				addShape(EShape.MultiPhysicalConverter);
-    				event.consume();
-    			}   		
-        	});    	
+			@Override
+			public void handle(MouseEvent event) {				
+				Dragboard db = multiPhysicalConverter.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.MultiPhysicalConverter;		
+			}    		
+    	});  	
     	
     	//Energy accumulation
     	MyShapes energyAccumulation = new MyShapes(EShape.EnergyAccumulation);
     	gridPane1.add(energyAccumulation, 1, 1);
     	
-    	energyAccumulation.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energyAccumulation.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.EnergyAccumulation);
-				event.consume();
-			}   		
-    	});
+			public void handle(MouseEvent event) {				
+				Dragboard db = energyAccumulation.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.EnergyAccumulation;		
+			}    		
+    	}); 
     	
     	//Mono-physical coupling
     	MyShapes monoPhysicalCoupling = new MyShapes(EShape.MonoPhysicalCoupling);
     	gridPane1.add(monoPhysicalCoupling, 0, 2);
     	
-    	monoPhysicalCoupling.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalCoupling.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{		
-				addShape(EShape.MonoPhysicalCoupling);
-				event.consume();
-			}   		
-    	});
+			public void handle(MouseEvent event) {				
+				Dragboard db = monoPhysicalCoupling.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.MonoPhysicalCoupling;		
+			}    		
+    	}); 
     	
     	//Multi-physical coupling
     	MyShapes multiPhysicalCoupling = new MyShapes(EShape.MultiPhysicalCoupling);
     	gridPane1.add(multiPhysicalCoupling, 1, 2);
     	
-    	multiPhysicalCoupling.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalCoupling.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.MultiPhysicalCoupling);
-				event.consume();
-			}   		
-    	});
+			public void handle(MouseEvent event) {				
+				Dragboard db = multiPhysicalCoupling.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.MultiPhysicalCoupling;		
+			}    		
+    	}); 
     	
     	//Direct inversion
     	MyShapes directInversion = new MyShapes(EShape.DirectInversion);
     	gridPane2.add(directInversion, 0, 0);
     	
-    	directInversion.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	directInversion.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.DirectInversion);
-				event.consume();
-			}   		
-    	});
+			public void handle(MouseEvent event) {				
+				Dragboard db = directInversion.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.DirectInversion;		
+			}    		
+    	}); 
     	
     	
     	//Indirect inversion
     	MyShapes indirectInversion = new MyShapes(EShape.IndirectInversion);
     	gridPane2.add(indirectInversion, 1, 0);
     	
-    	indirectInversion.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	indirectInversion.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.IndirectInversion);
-				event.consume();
-			}   		
-    	});
+			public void handle(MouseEvent event) {				
+				Dragboard db = indirectInversion.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.IndirectInversion;		
+			}    		
+    	}); 
+    	
     	
     	//Strategy
     	MyShapes strategy = new MyShapes(EShape.Strategy);
     	gridPane3.add(strategy, 0, 0);
     	
-    	strategy.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	strategy.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.Strategy);
-				event.consume();
-			}   		
-    	});
+			public void handle(MouseEvent event) {				
+				Dragboard db = strategy.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.Strategy;		
+			}    		
+    	}); 
+    	
     	
     	//Energy source estimator
     	MyShapes energySourceEstimator = new MyShapes(EShape.EnergySourceEstimator);
     	gridPane4.add(energySourceEstimator,0,0);
     	
-    	energySourceEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energySourceEstimator.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.EnergySourceEstimator);
-				event.consume();
-			}   		
-    	});
+			public void handle(MouseEvent event) {				
+				Dragboard db = energySourceEstimator.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.EnergySourceEstimator;		
+			}    		
+    	}); 
     	
     	//Mono-physical converter estimator
     	MyShapes monoPhysicalConverterEstimator = new MyShapes(EShape.MonoPhysicalConverterEstimator);
     	gridPane4.add(monoPhysicalConverterEstimator, 1, 0);
     	
-    	monoPhysicalConverterEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalConverterEstimator.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.MonoPhysicalConverterEstimator);
-				event.consume();
-			}   		
-    	});    	
+			public void handle(MouseEvent event) {				
+				Dragboard db = monoPhysicalConverterEstimator.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.MonoPhysicalConverterEstimator;		
+			}    		
+    	});  	
     	
     	//Multi-physical converter estimator
     	MyShapes multiPhysicalConverterEstimator = new MyShapes(EShape.MultiPhysicalConverterEstimator);
     	gridPane4.add(multiPhysicalConverterEstimator, 0, 1);
     	
-    	multiPhysicalConverterEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalConverterEstimator.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.MultiPhysicalConverterEstimator);
-				event.consume();
-			}   		
-    	});
+			public void handle(MouseEvent event) {				
+				Dragboard db = multiPhysicalConverterEstimator.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.MultiPhysicalConverterEstimator;		
+			}    		
+    	}); 
     	
     	//Energy accumulation estimator
     	MyShapes energyAccumulationEstimator = new MyShapes(EShape.EnergyAccumulationEstimator);
     	gridPane4.add(energyAccumulationEstimator, 1, 1);
     	
-    	energyAccumulationEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energyAccumulationEstimator.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.EnergyAccumulationEstimator);
-				event.consume();
-			}   		
-    	});
+			public void handle(MouseEvent event) {				
+				Dragboard db = energyAccumulationEstimator.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.EnergyAccumulationEstimator;		
+			}    		
+    	}); 
     	 
     	//Mono-physical coupling estimator
     	MyShapes monoPhysicalCouplingEstimator = new MyShapes(EShape.MonoPhysicalCouplingEstimator);
     	gridPane4.add(monoPhysicalCouplingEstimator, 0, 2);
     	
-    	monoPhysicalCouplingEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalCouplingEstimator.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.MonoPhysicalCouplingEstimator);
-				event.consume();
-			}   		
-    	});    	
+			public void handle(MouseEvent event) {				
+				Dragboard db = monoPhysicalCouplingEstimator.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.MonoPhysicalCouplingEstimator;		
+			}    		
+    	}); 
+    	   	
     	
     	//Multi-physical coupling estimator
     	MyShapes multiPhysicalCouplingEstimator = new MyShapes(EShape.MultiPhysicalCouplingEstimator);
     	gridPane4.add(multiPhysicalCouplingEstimator, 1, 2);
     	
-    	multiPhysicalCouplingEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalCouplingEstimator.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{				
-				addShape(EShape.MultiPhysicalCouplingEstimator);
-				event.consume();
-			}   		
-    	});
-    	*/
+			public void handle(MouseEvent event) {				
+				Dragboard db = multiPhysicalCouplingEstimator.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.MultiPhysicalCouplingEstimator;		
+			}    		
+    	}); 
     }
    
 	public void move(MouseEvent event) 
