@@ -2,6 +2,7 @@ package e04p1;
 
 import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -12,6 +13,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,6 +21,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -115,7 +118,26 @@ public class FactoryController {
     
     @FXML  
     private Button Save;
+    
+    @FXML  
+    private Button SaveFXML;
    
+    @FXML
+    void SaveFXML(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void Open(ActionEvent event) throws IOException {
+    	FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
+		Image image = new Image(new FileInputStream(fileChooser.showOpenDialog(null).getPath()));
+		ImageView imageview = new ImageView();
+		imageview.setImage(image);
+		paneDessin.getChildren().removeAll();
+		paneDessin.getChildren().add(imageview);
+    }
+    
     @FXML
     void Save(ActionEvent event)
     {
