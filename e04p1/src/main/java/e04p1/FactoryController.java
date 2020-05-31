@@ -25,12 +25,14 @@ import javafx.scene.shape.Shape;
 
 import javafx.scene.input.MouseEvent;
 
-
+//This class makes part of the design pattern MVC togheter with class MyShapes and scene.fxml
 public class FactoryController {
 	
 	static final int a = 21;
 	static final int b = 2;
 	static final int c = 30;
+	
+	Vector<MyShapes> v;
 
     @FXML
     private MenuItem menuDelete;
@@ -115,7 +117,7 @@ public class FactoryController {
     @FXML
     void initialize() {
 
-    	Vector<MyShapes> v = new Vector<MyShapes>();  	
+    	v = new Vector<MyShapes>();  	
     	
     	//Energy source
     	Shape oval = new Ellipse(a,a/2);
@@ -143,16 +145,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}						
+						move(event);					
 					}
 		    	});
 			}   		
@@ -185,16 +178,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -226,16 +210,7 @@ public class FactoryController {
     					@Override
     					public void handle(MouseEvent event) 
     					{
-    						for(int i = 0; i < v.size(); i++)
-    						{
-    							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-    							{
-    								v.elementAt(i).x += event.getX();
-    								v.elementAt(i).y += event.getY();
-    								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-    								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-    							}
-    						}
+    						move(event);
     					}
     		    	});
     			}   		
@@ -267,16 +242,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -308,16 +274,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -349,16 +306,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -400,16 +348,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -454,16 +393,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -505,16 +435,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -546,16 +467,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -587,16 +499,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -628,16 +531,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -669,16 +563,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -710,16 +595,7 @@ public class FactoryController {
 					@Override
 					public void handle(MouseEvent event) 
 					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+						move(event);
 					}
 		    	});
 			}   		
@@ -748,24 +624,29 @@ public class FactoryController {
 	    	
 		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						for(int i = 0; i < v.size(); i++)
-						{
-							if(v.elementAt(i).shape.equals(((Node) event.getSource())))
-							{
-								v.elementAt(i).x += event.getX();
-								v.elementAt(i).y += event.getY();
-								((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-								((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-							}
-						}
+		    		@Override
+					public void handle(MouseEvent event)
+		    		{
+						move(event);
 					}
 		    	});
 			}   		
     	});   	
-    }	
+    }
+    
+	public void move(MouseEvent event) 
+	{
+		for(int i = 0; i < v.size(); i++)
+		{
+			if(v.elementAt(i).shape.equals(((Node) event.getSource())))
+			{
+				v.elementAt(i).x += event.getX();
+				v.elementAt(i).y += event.getY();
+				((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
+				((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
+			}
+		}
+	}
 }
 
 
