@@ -36,6 +36,8 @@ public class FactoryController {
 	
 	EShape draggedShape;
 	
+	int draggedIndex;
+	
 	Border myBorder;
 	
     @FXML
@@ -398,39 +400,44 @@ public class FactoryController {
     	}); 
     }
    
-	public void move(MouseEvent event) 
-	{
-		for(int i = 0; i < v.size(); i++)
-		{
-			if(v.elementAt(i).equals(((Node) event.getSource())))
-			{
-				v.elementAt(i).x += event.getX();
-				v.elementAt(i).y += event.getY();
-				((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
-				((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
-				break;
-			}
-		}	
-	}
 	
 	public void addShape(EShape eshape, double x, double y)
 	{
 		MyShapes myShape = new MyShapes(eshape);
 		v.add(myShape);
 		paneDessin.getChildren().add(myShape);	
-		myShape.setX(x);
-		myShape.setY(y);
-		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(myShape.getX());
-		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(myShape.getY());
-		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		{
+		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(x);
+		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(y);
+		
+		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnDragDetected(new EventHandler<MouseEvent>(){
+
 			@Override
-			public void handle(MouseEvent event) 
-			{
-				move(event);	
-				event.consume();
+			public void handle(MouseEvent event) {
+				Dragboard db = paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = eshape;		
+				for(int i = 0; i < paneDessin.getChildren().size(); i++)
+				{
+					if(paneDessin.getChildren().get(i).equals(((Node) event.getSource())))
+					{
+						draggedIndex = i;
+						break;
+					}
+				}
 			}
+			
 		});
+		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnDragDone(new EventHandler<DragEvent>() {
+
+			@Override
+			public void handle(DragEvent event) {				
+				paneDessin.getChildren().remove(draggedIndex);				
+			}
+			
+		});
+		
 	}
 	
 }
