@@ -16,9 +16,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 
 import javafx.scene.input.MouseEvent;
 
@@ -122,18 +119,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-		    	MyShapes energySource = new MyShapes(EShape.EnergySource);
-		    	v.add(energySource);
-		    	paneDessin.getChildren().add(energySource.getShape());	
-		    			    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);					
-					}
-		    	});
+		    	addShape(EShape.EnergySource);
 			}   		
     	});
     	
@@ -147,18 +133,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes monoPhysicalConverter = new MyShapes(EShape.MonoPhysicalConverter);
-				v.add(monoPhysicalConverter);
-		    	paneDessin.getChildren().add(monoPhysicalConverter.getShape());	
-		    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.MonoPhysicalConverter);
 			}   		
     	});
     	
@@ -171,18 +146,7 @@ public class FactoryController {
     			@Override
     			public void handle(MouseEvent event)
     			{				
-    				MyShapes multiPhysicalConverter = new MyShapes(EShape.MultiPhysicalConverter);
-    				v.add(multiPhysicalConverter);
-    		    	paneDessin.getChildren().add(multiPhysicalConverter.getShape());	
-    		    		    			    	    	    	
-    		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-    		    	{
-    					@Override
-    					public void handle(MouseEvent event) 
-    					{
-    						move(event);
-    					}
-    		    	});
+    				addShape(EShape.MultiPhysicalConverter);
     			}   		
         	});    	
     	
@@ -195,18 +159,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes energyAccumulation = new MyShapes(EShape.EnergyAccumulation);
-				v.add(energyAccumulation);
-		    	paneDessin.getChildren().add(energyAccumulation.getShape());	
-		    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.EnergyAccumulation);
 			}   		
     	});
     	
@@ -219,18 +172,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{		
-				MyShapes monoPhysicalCoupling = new MyShapes(EShape.MonoPhysicalCoupling);
-				v.add(monoPhysicalCoupling);
-		    	paneDessin.getChildren().add(monoPhysicalCoupling.getShape());	
-		
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.MonoPhysicalCoupling);
 			}   		
     	});
     	
@@ -243,18 +185,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes multiPhysicalCoupling = new MyShapes(EShape.MultiPhysicalCoupling);
-				v.add(multiPhysicalCoupling);
-		    	paneDessin.getChildren().add(multiPhysicalCoupling.getShape());	
-	    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.MultiPhysicalCoupling);
 			}   		
     	});
     	
@@ -267,18 +198,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes directInversion = new MyShapes(EShape.DirectInversion);
-				v.add(directInversion);
-		    	paneDessin.getChildren().add(directInversion.getShape());	
-
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.DirectInversion);
 			}   		
     	});
     	
@@ -292,18 +212,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes indirectInversion = new MyShapes(EShape.IndirectInversion);
-				v.add(indirectInversion);
-		    	paneDessin.getChildren().add(indirectInversion.getShape());	
-	    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.IndirectInversion);
 			}   		
     	});
     	
@@ -316,18 +225,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes strategy = new MyShapes(EShape.Strategy);
-				v.add(strategy);
-		    	paneDessin.getChildren().add(strategy.getShape());	
-	    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.Strategy);
 			}   		
     	});
     	
@@ -340,18 +238,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes energySourceEstimator = new MyShapes(EShape.EnergySourceEstimator);
-				v.add(energySourceEstimator);
-		    	paneDessin.getChildren().add(energySourceEstimator.getShape());	
-	    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.EnergySourceEstimator);
 			}   		
     	});
     	
@@ -364,18 +251,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes monoPhysicalConverterEstimator = new MyShapes(EShape.MonoPhysicalConverterEstimator);
-				v.add(monoPhysicalConverterEstimator);
-		    	paneDessin.getChildren().add(monoPhysicalConverterEstimator.getShape());	
-
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.MonoPhysicalConverterEstimator);
 			}   		
     	});    	
     	
@@ -388,18 +264,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes multiPhysicalConverterEstimator = new MyShapes(EShape.MultiPhysicalConverterEstimator);
-				v.add(multiPhysicalConverterEstimator);
-		    	paneDessin.getChildren().add(multiPhysicalConverterEstimator.getShape());	
-	    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.MultiPhysicalConverterEstimator);
 			}   		
     	});
     	
@@ -412,18 +277,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes energyAccumulationEstimator = new MyShapes(EShape.EnergyAccumulationEstimator);
-				v.add(energyAccumulationEstimator);
-		    	paneDessin.getChildren().add(energyAccumulationEstimator.getShape());	
-	    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.EnergyAccumulationEstimator);
 			}   		
     	});
     	 
@@ -436,18 +290,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes monoPhysicalCouplingEstimator = new MyShapes(EShape.MonoPhysicalCouplingEstimator);
-				v.add(monoPhysicalCouplingEstimator);
-		    	paneDessin.getChildren().add(monoPhysicalCouplingEstimator.getShape());	
-	    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-					@Override
-					public void handle(MouseEvent event) 
-					{
-						move(event);
-					}
-		    	});
+				addShape(EShape.MonoPhysicalCouplingEstimator);
 			}   		
     	});    	
     	
@@ -460,18 +303,7 @@ public class FactoryController {
 			@Override
 			public void handle(MouseEvent event)
 			{				
-				MyShapes multiPhysicalCouplingEstimator = new MyShapes(EShape.MultiPhysicalCouplingEstimator);
-				v.add(multiPhysicalCouplingEstimator);
-		    	paneDessin.getChildren().add(multiPhysicalCouplingEstimator.getShape());
-	    	
-		    	paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
-		    	{
-		    		@Override
-					public void handle(MouseEvent event)
-		    		{
-						move(event);
-					}
-		    	});
+				addShape(EShape.MultiPhysicalCouplingEstimator);
 			}   		
     	});
     	
@@ -490,9 +322,21 @@ public class FactoryController {
 			}
 		}
 	}
+	
+	public void addShape(EShape eshape)
+	{
+		MyShapes myShape = new MyShapes(eshape);
+		v.add(myShape);
+		paneDessin.getChildren().add(myShape.getShape());	
+				    	
+		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
+		{
+			@Override
+			public void handle(MouseEvent event) 
+			{
+				move(event);					
+			}
+		});
+	}
+	
 }
-
-
-    
-
-
