@@ -12,18 +12,29 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.paint.Color;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 
-//This class makes part of the design pattern MVC togheter with class MyShapes and scene.fxml
+//This class makes part of the design pattern MVC together with class MyShapes and scene.fxml
 public class FactoryController {
 	
 	
 	Vector<MyShapes> v;
+	
+	EShape draggedShape;
 	
     @FXML
     private MenuItem menuDelete;
@@ -104,28 +115,75 @@ public class FactoryController {
     void buttonFullScreenClicked(ActionEvent event) {
     	labelStatusBar.setText("Activation du mode plein �cran...");
     }
-   
+    boolean success;
     @FXML
     void initialize() {
+    	//MouseControlUtil.makeDraggable();
+    	paneDessin.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(2.5))));
+    	paneDessin.setOnDragEntered(new EventHandler<DragEvent>() {
+			@Override	
+			public void handle(DragEvent event) {
+				labelStatusBar.setText("DragOnPaneDessin");
+				event.acceptTransferModes(TransferMode.ANY);
+		    	paneDessin.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(2.5))));
+			}	
+    	});
+    	paneDessin.setOnDragExited(new EventHandler<DragEvent>() {
+			@Override
+			public void handle(DragEvent event) {
+				paneDessin.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(2.5))));			
+			}
+    		
+    	});
+    	paneDessin.setOnDragOver(new EventHandler<DragEvent>() {
+			@Override
+			public void handle(DragEvent event) {
+				event.acceptTransferModes(TransferMode.ANY);				
+			}   		
+    	});
+    	paneDessin.setOnDragDropped(new EventHandler<DragEvent>() {
+			@Override
+			public void handle(DragEvent event) {	
+				addShape(draggedShape, event.getSceneX() - 166, event.getSceneY() - 50);
+                event.consume();
+                }  		
+    	});
+
 
     	v = new Vector<MyShapes>();  	
     	
     	//Energy source
     	MyShapes energySource = new MyShapes(EShape.EnergySource);
     	gridPane1.add(energySource, 0, 0);
+    	
+    	
+    	energySource.setOnDragDetected(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {				
+				labelStatusBar.setText("EnergySourceDrag");
+				Dragboard db = energySource.startDragAndDrop(TransferMode.ANY);
+				ClipboardContent content = new ClipboardContent();
+		        content.putString("Dragged");
+				db.setContent(content);
+				draggedShape = EShape.EnergySource;		
+			}    		
+    	});
 	
-    	energySource.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	/*energySource.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
 			{				
 		    	addShape(EShape.EnergySource);
+		    	event.consume();
+		    	labelStatusBar.setText("EnergySource");
 			}   		
-    	});
+    	});*/
     	
-    	
+   	
     	//Mono-physical converter
-    	MyShapes monoPhysicalConverter = new MyShapes(EShape.MonoPhysicalConverter);
+ /*   	MyShapes monoPhysicalConverter = new MyShapes(EShape.MonoPhysicalConverter);
     	gridPane1.add(monoPhysicalConverter, 1, 0);
     	
     	monoPhysicalConverter.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -134,6 +192,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.MonoPhysicalConverter);
+				event.consume();
 			}   		
     	});
     	
@@ -147,6 +206,7 @@ public class FactoryController {
     			public void handle(MouseEvent event)
     			{				
     				addShape(EShape.MultiPhysicalConverter);
+    				event.consume();
     			}   		
         	});    	
     	
@@ -160,6 +220,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.EnergyAccumulation);
+				event.consume();
 			}   		
     	});
     	
@@ -173,6 +234,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{		
 				addShape(EShape.MonoPhysicalCoupling);
+				event.consume();
 			}   		
     	});
     	
@@ -186,6 +248,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.MultiPhysicalCoupling);
+				event.consume();
 			}   		
     	});
     	
@@ -199,6 +262,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.DirectInversion);
+				event.consume();
 			}   		
     	});
     	
@@ -213,6 +277,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.IndirectInversion);
+				event.consume();
 			}   		
     	});
     	
@@ -226,6 +291,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.Strategy);
+				event.consume();
 			}   		
     	});
     	
@@ -239,6 +305,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.EnergySourceEstimator);
+				event.consume();
 			}   		
     	});
     	
@@ -252,6 +319,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.MonoPhysicalConverterEstimator);
+				event.consume();
 			}   		
     	});    	
     	
@@ -265,6 +333,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.MultiPhysicalConverterEstimator);
+				event.consume();
 			}   		
     	});
     	
@@ -278,6 +347,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.EnergyAccumulationEstimator);
+				event.consume();
 			}   		
     	});
     	 
@@ -291,6 +361,7 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.MonoPhysicalCouplingEstimator);
+				event.consume();
 			}   		
     	});    	
     	
@@ -304,11 +375,12 @@ public class FactoryController {
 			public void handle(MouseEvent event)
 			{				
 				addShape(EShape.MultiPhysicalCouplingEstimator);
+				event.consume();
 			}   		
     	});
-    	
+    	*/
     }
-    
+   
 	public void move(MouseEvent event) 
 	{
 		for(int i = 0; i < v.size(); i++)
@@ -319,22 +391,27 @@ public class FactoryController {
 				v.elementAt(i).y += event.getY();
 				((Node) event.getSource()).setLayoutX(v.elementAt(i).x);
 				((Node) event.getSource()).setLayoutY(v.elementAt(i).y);
+				break;
 			}
-		}
+		}	
 	}
 	
-	public void addShape(EShape eshape)
+	public void addShape(EShape eshape, double x, double y)
 	{
 		MyShapes myShape = new MyShapes(eshape);
 		v.add(myShape);
 		paneDessin.getChildren().add(myShape);	
-				    	
+		myShape.setX(x);
+		myShape.setY(y);
+		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(myShape.getX());
+		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(myShape.getY());
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		{
 			@Override
 			public void handle(MouseEvent event) 
 			{
-				move(event);					
+				move(event);	
+				event.consume();
 			}
 		});
 	}

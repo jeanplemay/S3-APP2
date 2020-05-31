@@ -8,7 +8,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-// This class makes part of the design pattern MVC togheter with class FactoryController and scene.fxml
+// This class makes part of the design pattern MVC together with class FactoryController and scene.fxml
 public class MyShapes extends Group {
 	public enum EShape {EnergySource,
 						MonoPhysicalConverter,
@@ -32,12 +32,13 @@ public class MyShapes extends Group {
 	
 	public double x;
 	public double y;
-
+	public EShape myEShape;
 	
 	MyShapes(EShape eshape)
 	{
 		this.x = 0;
 		this.y = 0;
+		myEShape = eshape;
 			
 		switch(eshape)
 		{
@@ -245,7 +246,14 @@ public class MyShapes extends Group {
 
 	}
 
-
+	public EShape getMyEShape() {
+		return myEShape;
+	}
+	
+	public void getMyEShape(EShape e) {
+		this.myEShape = e;
+	}
+	
 	public double getX() {
 		return x;
 	}
