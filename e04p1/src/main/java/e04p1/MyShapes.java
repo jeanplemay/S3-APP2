@@ -26,9 +26,9 @@ public class MyShapes {
 						MonoPhysicalCouplingEstimator,
 						MultiPhysicalCouplingEstimator,
 						};
-	static final int a = 21;
+	static final int a = 30;
 	static final int b = 2;
-	static final int c = 30;
+	static final int c = 40;
 	
 	public Shape shape;
 	public double x;
@@ -72,11 +72,18 @@ public class MyShapes {
 				break;
 				
 			case EnergyAccumulation :
-				Shape shape = Shape.subtract(new Rectangle(a/2,a), new Line(a/2,0,0,a));
-		    	shape.setFill(Color.web("FFD700"));
-		    	shape.setStroke(Color.web("FF0000"));
-		    	shape.setStrokeWidth(b);
-		    	this.shape = shape;
+				Shape polygon4 = new Polygon(
+		        		a/2.0,0.0,
+		        		a/2.0,a*1.0,
+		        		0.0,a*1.0,
+		        		0.0,0.0,
+		        		a/2.0,0.0,
+		        		0.0,a*1.0
+		        		);
+				polygon4.setFill(Color.web("FFD700"));
+				polygon4.setStroke(Color.web("FF0000"));
+				polygon4.setStrokeWidth(b);
+		    	this.shape = polygon4;
 				break;
 				
 			case MonoPhysicalCoupling :
@@ -113,13 +120,14 @@ public class MyShapes {
 		        		a/4.0,0.0,
 		        		a*5.0/4.0,0.0,
 		        		a*1.0,a*1.0,
-		        		0.0,a*1.0
+		        		0.0,a*1.0,
+		        		a/4.0,0.0,
+		        		a*1.0,a*1.0
 		        		);
-		    	Shape shape4 = Shape.subtract(polygon2, new Line(a/4,0,a,a));
-		    	shape4.setFill(Color.web("87CEEB"));
-		    	shape4.setStroke(Color.web("0000FF"));
-		    	shape4.setStrokeWidth(b/2.0);
-		    	this.shape = shape4;
+				polygon2.setFill(Color.web("87CEEB"));
+				polygon2.setStroke(Color.web("0000FF"));
+				polygon2.setStrokeWidth(b/2.0);
+		    	this.shape = polygon2;
 		    	break;
 		    	
 			case Strategy :
@@ -160,11 +168,18 @@ public class MyShapes {
 				break;
 				
 			case EnergyAccumulationEstimator :
-				Shape shape5 = Shape.subtract(new Rectangle(a/2,a), new Line(a/2,0,0,a));
-		    	shape5.setFill(Color.web("EE82EE"));
-		    	shape5.setStroke(Color.web("0000FF"));
-		    	shape5.setStrokeWidth(b/2.0);
-		    	this.shape = shape5;
+				Shape polygon5 = new Polygon(
+		        		a/2.0,0.0,
+		        		a/2.0,a*1.0,
+		        		0.0,a*1.0,
+		        		0.0,0.0,
+		        		a/2.0,0.0,
+		        		0.0,a*1.0
+		        		);
+				polygon5.setFill(Color.web("EE82EE"));
+				polygon5.setStroke(Color.web("0000FF"));
+				polygon5.setStrokeWidth(b/2.0);
+		    	this.shape = polygon5;
 				break;
 				
 			case MonoPhysicalCouplingEstimator :
