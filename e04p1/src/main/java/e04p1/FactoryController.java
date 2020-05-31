@@ -112,9 +112,9 @@ public class FactoryController {
     	
     	//Energy source
     	MyShapes energySource = new MyShapes(EShape.EnergySource);
-    	gridPane1.add(energySource.getShape(), 0, 0);
+    	gridPane1.add(energySource, 0, 0);
 	
-    	energySource.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energySource.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -126,9 +126,9 @@ public class FactoryController {
     	
     	//Mono-physical converter
     	MyShapes monoPhysicalConverter = new MyShapes(EShape.MonoPhysicalConverter);
-    	gridPane1.add(monoPhysicalConverter.getShape(), 1, 0);
+    	gridPane1.add(monoPhysicalConverter, 1, 0);
     	
-    	monoPhysicalConverter.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalConverter.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -139,9 +139,9 @@ public class FactoryController {
     	
     	//Multi-physical converter
     	MyShapes multiPhysicalConverter = new MyShapes(EShape.MultiPhysicalConverter);
-    	gridPane1.add(multiPhysicalConverter.getShape(), 0, 1);
+    	gridPane1.add(multiPhysicalConverter, 0, 1);
     	
-    	multiPhysicalConverter.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalConverter.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
     			@Override
     			public void handle(MouseEvent event)
@@ -152,9 +152,9 @@ public class FactoryController {
     	
     	//Energy accumulation
     	MyShapes energyAccumulation = new MyShapes(EShape.EnergyAccumulation);
-    	gridPane1.add(energyAccumulation.getShape(), 1, 1);
+    	gridPane1.add(energyAccumulation, 1, 1);
     	
-    	energyAccumulation.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energyAccumulation.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -165,9 +165,9 @@ public class FactoryController {
     	
     	//Mono-physical coupling
     	MyShapes monoPhysicalCoupling = new MyShapes(EShape.MonoPhysicalCoupling);
-    	gridPane1.add(monoPhysicalCoupling.getShape(), 0, 2);
+    	gridPane1.add(monoPhysicalCoupling, 0, 2);
     	
-    	monoPhysicalCoupling.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalCoupling.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -178,9 +178,9 @@ public class FactoryController {
     	
     	//Multi-physical coupling
     	MyShapes multiPhysicalCoupling = new MyShapes(EShape.MultiPhysicalCoupling);
-    	gridPane1.add(multiPhysicalCoupling.getShape(), 1, 2);
+    	gridPane1.add(multiPhysicalCoupling, 1, 2);
     	
-    	multiPhysicalCoupling.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalCoupling.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -191,9 +191,9 @@ public class FactoryController {
     	
     	//Direct inversion
     	MyShapes directInversion = new MyShapes(EShape.DirectInversion);
-    	gridPane2.add(directInversion.getShape(), 0, 0);
+    	gridPane2.add(directInversion, 0, 0);
     	
-    	directInversion.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	directInversion.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -205,9 +205,9 @@ public class FactoryController {
     	
     	//Indirect inversion
     	MyShapes indirectInversion = new MyShapes(EShape.IndirectInversion);
-    	gridPane2.add(indirectInversion.getShape(), 1, 0);
+    	gridPane2.add(indirectInversion, 1, 0);
     	
-    	indirectInversion.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	indirectInversion.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -218,9 +218,9 @@ public class FactoryController {
     	
     	//Strategy
     	MyShapes strategy = new MyShapes(EShape.Strategy);
-    	gridPane3.add(strategy.getShape(), 0, 0);
+    	gridPane3.add(strategy, 0, 0);
     	
-    	strategy.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	strategy.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -231,9 +231,9 @@ public class FactoryController {
     	
     	//Energy source estimator
     	MyShapes energySourceEstimator = new MyShapes(EShape.EnergySourceEstimator);
-    	gridPane4.add(energySourceEstimator.getShape(),0,0);
+    	gridPane4.add(energySourceEstimator,0,0);
     	
-    	energySourceEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energySourceEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -244,9 +244,9 @@ public class FactoryController {
     	
     	//Mono-physical converter estimator
     	MyShapes monoPhysicalConverterEstimator = new MyShapes(EShape.MonoPhysicalConverterEstimator);
-    	gridPane4.add(monoPhysicalConverterEstimator.getShape(), 1, 0);
+    	gridPane4.add(monoPhysicalConverterEstimator, 1, 0);
     	
-    	monoPhysicalConverterEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalConverterEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -257,9 +257,9 @@ public class FactoryController {
     	
     	//Multi-physical converter estimator
     	MyShapes multiPhysicalConverterEstimator = new MyShapes(EShape.MultiPhysicalConverterEstimator);
-    	gridPane4.add(multiPhysicalConverterEstimator.getShape(), 0, 1);
+    	gridPane4.add(multiPhysicalConverterEstimator, 0, 1);
     	
-    	multiPhysicalConverterEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalConverterEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -270,9 +270,9 @@ public class FactoryController {
     	
     	//Energy accumulation estimator
     	MyShapes energyAccumulationEstimator = new MyShapes(EShape.EnergyAccumulationEstimator);
-    	gridPane4.add(energyAccumulationEstimator.getShape(), 1, 1);
+    	gridPane4.add(energyAccumulationEstimator, 1, 1);
     	
-    	energyAccumulationEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	energyAccumulationEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -283,9 +283,9 @@ public class FactoryController {
     	 
     	//Mono-physical coupling estimator
     	MyShapes monoPhysicalCouplingEstimator = new MyShapes(EShape.MonoPhysicalCouplingEstimator);
-    	gridPane4.add(monoPhysicalCouplingEstimator.getShape(), 0, 2);
+    	gridPane4.add(monoPhysicalCouplingEstimator, 0, 2);
     	
-    	monoPhysicalCouplingEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	monoPhysicalCouplingEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -296,9 +296,9 @@ public class FactoryController {
     	
     	//Multi-physical coupling estimator
     	MyShapes multiPhysicalCouplingEstimator = new MyShapes(EShape.MultiPhysicalCouplingEstimator);
-    	gridPane4.add(multiPhysicalCouplingEstimator.getShape(), 1, 2);
+    	gridPane4.add(multiPhysicalCouplingEstimator, 1, 2);
     	
-    	multiPhysicalCouplingEstimator.getShape().setOnMouseClicked(new EventHandler<MouseEvent>(){
+    	multiPhysicalCouplingEstimator.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event)
@@ -313,7 +313,7 @@ public class FactoryController {
 	{
 		for(int i = 0; i < v.size(); i++)
 		{
-			if(v.elementAt(i).shape.equals(((Node) event.getSource())))
+			if(v.elementAt(i).equals(((Node) event.getSource())))
 			{
 				v.elementAt(i).x += event.getX();
 				v.elementAt(i).y += event.getY();
@@ -327,7 +327,7 @@ public class FactoryController {
 	{
 		MyShapes myShape = new MyShapes(eshape);
 		v.add(myShape);
-		paneDessin.getChildren().add(myShape.getShape());	
+		paneDessin.getChildren().add(myShape);	
 				    	
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseReleased(new EventHandler<MouseEvent>() 
 		{
