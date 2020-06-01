@@ -57,6 +57,8 @@ public class MyShapes extends Group {
 				this.getChildren().add(line2);
 				this.getChildren().add(line3);
 				break;
+		default:
+			break;
 
 		}
 		
@@ -271,6 +273,8 @@ public class MyShapes extends Group {
 				this.getChildren().add(c2e);
 				this.getChildren().add(ellipse2);
 				break;
+		default:
+			break;
 				
 				
 		}
@@ -281,7 +285,7 @@ public class MyShapes extends Group {
 		return myEShape;
 	}
 	
-	public void getMyEShape(EShape e) {
+	public void setMyEShape(EShape e) {
 		this.myEShape = e;
 	}
 	
