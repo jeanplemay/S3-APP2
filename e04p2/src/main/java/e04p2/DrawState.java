@@ -11,6 +11,7 @@ public class DrawState implements State {
 		fController.getTitledPane4().setCollapsible(true);
     	fController.getButtonArrows().setStyle(null);
     	fController.getPaneDessin().setOnMouseClicked(null);
+    	fController.setArrowStyle(null);
 	}
 	
 	public void simpleRedArrow(FactoryController fController)

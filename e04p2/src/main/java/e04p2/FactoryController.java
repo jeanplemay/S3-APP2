@@ -34,19 +34,16 @@ public class FactoryController {
 	Vector<MyShapes> v;
 	
 	EShape draggedShape;
-	
 	int draggedIndex;
-	
 	int deleteIndex;
-	
 	int Vindex;
 	
 	Border myBorder;
 	
 	private State state;
 	
-	double arrowBeginX = -1;
-	double arrowBeginY = -1;
+	int lastClickedIndex = -1;
+	private EShape arrowStyle = null;
 	
 	
     @FXML
@@ -117,21 +114,7 @@ public class FactoryController {
     
     @FXML
     private MenuItem simpleArrow;
-    
-    
-    
-    public double getArrowBeginX() {
-		return arrowBeginX;
-	}
-	public void setArrowBeginX(double arrowBeginX) {
-		this.arrowBeginX = arrowBeginX;
-	}
-	public double getArrowBeginY() {
-		return arrowBeginY;
-	}
-	public void setArrowBeginY(double arrowBeginY) {
-		this.arrowBeginY = arrowBeginY;
-	}
+  
 	public State getState() {
 		return state;
 	}
@@ -184,6 +167,12 @@ public class FactoryController {
 	}
 	public void setV(Vector<MyShapes> v) {
 		this.v = v;
+	}
+	public EShape getArrowStyle() {
+		return arrowStyle;
+	}
+	public void setArrowStyle(EShape arrowStyle) {
+		this.arrowStyle = arrowStyle;
 	}
 	
 	@FXML
@@ -262,6 +251,15 @@ public class FactoryController {
 			@Override
 			public void handle(DragEvent event) {	
 				addShape(draggedShape, event.getSceneX() - 166, event.getSceneY() - 50);
+				
+				for(int i = 0; i < v.size(); i++)
+				{
+					if(v.get(i).myEShape == EShape.SimpleArrow)
+					{
+						
+					}
+				}
+				
                 event.consume();
                 }  		
     	});
@@ -550,6 +548,45 @@ public class FactoryController {
 			}
 			
 		});
+		
+		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				System.out.println(event.getSource().toString());
+				
+					if(arrowStyle != null)
+					{
+						int clickedIndex = 0;
+						for(int i = 0; i < paneDessin.getChildren().size(); i++)
+						{
+							if(paneDessin.getChildren().get(i).equals(((Node) event.getSource())))
+							{
+								clickedIndex = i;
+								break;
+							}
+						}
+						
+	    				if(lastClickedIndex == -1)
+	    				{
+	    					lastClickedIndex = clickedIndex;
+	    				}
+	    				else
+	    				{
+	    					MyShapes arrow = new MyArrow(arrowStyle,
+	    							paneDessin.getChildren().get(lastClickedIndex).getLayoutX(),
+	    							paneDessin.getChildren().get(lastClickedIndex).getLayoutY(),
+	    							paneDessin.getChildren().get(clickedIndex).getLayoutX(),
+	    							paneDessin.getChildren().get(clickedIndex).getLayoutY(),
+	    							lastClickedIndex,clickedIndex );
+	    					paneDessin.getChildren().add(arrow);
+	    					v.add(arrow);
+	    					lastClickedIndex = -1;
+	    				}
+					}
+					
+						
+                }  		
+    	});
 		
 	}
 	

@@ -1,5 +1,6 @@
 package e04p2;
 
+//This class makes part of the design pattern STATE PATERN together with class ConnectionState and DrawState
 public interface State {
 
 	public void changeState(FactoryController fController);

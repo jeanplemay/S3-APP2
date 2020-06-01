@@ -9,6 +9,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 
 // This class makes part of the design pattern MVC together with class FactoryController and scene.fxml
 public class MyShapes extends Group {
@@ -27,7 +28,8 @@ public class MyShapes extends Group {
 						EnergyAccumulationEstimator,
 						MonoPhysicalCouplingEstimator,
 						MultiPhysicalCouplingEstimator,
-						Arrow
+						SimpleArrow,
+						DoubleArrow
 						};
 	static final int a = 30;
 	static final int b = 2;
@@ -40,9 +42,10 @@ public class MyShapes extends Group {
 	
 	MyShapes(EShape eshape, double startX, double startY, double endX, double endY )
 	{
+		this.myEShape = eshape;
 		switch(eshape)
 		{
-			case Arrow :
+			case SimpleArrow :
 				Shape line = new Line(startX,startY,endX,endY);
 				double width =endX-startX;
 				double height = startY-endY;
@@ -53,9 +56,32 @@ public class MyShapes extends Group {
 				line2.getTransforms().add(new Rotate(-angle, endX, endY) );
 				Shape line3 = new Line(endX,endY,endX-5,endY+5);
 				line3.getTransforms().add(new Rotate(-angle, endX, endY) );
+				line.setStroke(Color.RED);
+				line2.setStroke(Color.RED);
+				line3.setStroke(Color.RED);
 				this.getChildren().add(line);
 				this.getChildren().add(line2);
 				this.getChildren().add(line3);
+				break;
+				
+			case DoubleArrow :
+				Shape lined = new Line(startX,startY,endX,endY);
+				Shape lined2 = new Line(startX,startY,endX,endY);
+				double widthd =endX-startX;
+				double heightd = startY-endY;
+				double angled = Math.toDegrees(Math.atan(heightd/widthd));
+				if(widthd < 0) angled += 180;
+				if(angled < 0) angled += 360;
+				lined.getTransforms().add(new Translate(Math.cos(angled)*-2, Math.sin(angled)*-2) );
+				lined2.getTransforms().add(new Translate(Math.cos(angled)*2, Math.sin(angled)*2) );
+				Shape line2d = new Line(endX,endY,endX-5,endY-5);
+				line2d.getTransforms().add(new Rotate(-angled, endX, endY) );
+				Shape line3d = new Line(endX,endY,endX-5,endY+5);
+				line3d.getTransforms().add(new Rotate(-angled, endX, endY) );
+				this.getChildren().add(lined);
+				this.getChildren().add(lined2);
+				this.getChildren().add(line2d);
+				this.getChildren().add(line3d);
 				break;
 
 		}
