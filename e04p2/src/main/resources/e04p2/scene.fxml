@@ -35,8 +35,15 @@
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
                     <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#menuDeleteClicked" text="Delete" />
+                        
                   </items>
                 </Menu>
+                <Menu mnemonicParsing="false" text="Connections">
+                          <items>
+                            <MenuItem fx:id="doubleArrow" mnemonicParsing="false" onAction="#doubleArrowClicked" text="Double (black)" />
+                              <MenuItem fx:id="simpleArrow" mnemonicParsing="false" onAction="#simpleArrowClicked" text="Simple (red)" />
+                          </items>
+                        </Menu>
               </menus>
             </MenuBar>
             <HBox fx:id="hBoxOutils" prefHeight="34.0" prefWidth="600.0" spacing="10">

@@ -43,7 +43,8 @@ public class FactoryController {
 	
 	Border myBorder;
 	
-	int mode = 0; // 0 = dessin de composants, 1 = dessin de flèches
+	private State state;
+	
 	double arrowBeginX = -1;
 	double arrowBeginY = -1;
 	
@@ -110,61 +111,102 @@ public class FactoryController {
     
     @FXML
     private Button buttonArrows;
-   
+    
     @FXML
-    void SaveFXML(ActionEvent event) {
-
-    }
-      
+    private MenuItem doubleArrow;
+    
     @FXML
+    private MenuItem simpleArrow;
+    
+    
+    
+    public double getArrowBeginX() {
+		return arrowBeginX;
+	}
+	public void setArrowBeginX(double arrowBeginX) {
+		this.arrowBeginX = arrowBeginX;
+	}
+	public double getArrowBeginY() {
+		return arrowBeginY;
+	}
+	public void setArrowBeginY(double arrowBeginY) {
+		this.arrowBeginY = arrowBeginY;
+	}
+	public State getState() {
+		return state;
+	}
+	public void setState(State state) {
+		this.state = state;
+	}
+	
+	public TitledPane getTitledPane1() {
+		return titledPane1;
+	}
+	public void setTitledPane1(TitledPane titledPane1) {
+		this.titledPane1 = titledPane1;
+	}
+	public TitledPane getTitledPane2() {
+		return titledPane2;
+	}
+	public void setTitledPane2(TitledPane titledPane2) {
+		this.titledPane2 = titledPane2;
+	}
+	public TitledPane getTitledPane3() {
+		return titledPane3;
+	}
+	public void setTitledPane3(TitledPane titledPane3) {
+		this.titledPane3 = titledPane3;
+	}
+	public TitledPane getTitledPane4() {
+		return titledPane4;
+	}
+	public void setTitledPane4(TitledPane titledPane4) {
+		this.titledPane4 = titledPane4;
+	}
+	public Pane getPaneDessin() {
+		return paneDessin;
+	}
+	public void setPaneDessin(Pane paneDessin) {
+		this.paneDessin = paneDessin;
+	}
+	public Button getButtonArrows() {
+		return buttonArrows;
+	}
+	public void setButtonArrows(Button buttonArrows) {
+		this.buttonArrows = buttonArrows;
+	}
+	
+	public void setStatusBarMessage(String text) {
+		this.labelStatusBar.setText(text);
+	}
+	public Vector<MyShapes> getV() {
+		return v;
+	}
+	public void setV(Vector<MyShapes> v) {
+		this.v = v;
+	}
+	
+	@FXML
     void buttonArrowsClicked(ActionEvent event) {
-    	labelStatusBar.setText("Mode arrows");
+		state.changeState(this);
+		labelStatusBar.setText(state.toString());
+
+	}
+	
+	@FXML
+    void simpleArrowClicked(ActionEvent event) {
+		state.simpleRedArrow(this);
+
+	}
+	
+	@FXML
+    void doubleArrowClicked(ActionEvent event) {
+		state.doubleBlackArrow(this);
+
+	}
+
     	
-    	if(this.mode == 0)
-    	{
-    		mode = 1;
-    		titledPane1.setExpanded(false);
-        	titledPane2.setExpanded(false);
-        	titledPane3.setExpanded(false);
-        	titledPane4.setExpanded(false);
-        	titledPane1.setCollapsible(false);
-        	titledPane2.setCollapsible(false);
-        	titledPane3.setCollapsible(false);
-        	titledPane4.setCollapsible(false);
-        	buttonArrows.setStyle("-fx-background-color: green;");
-        	
-        	paneDessin.setOnMouseClicked(new EventHandler<MouseEvent>() {
-    			@Override
-    			public void handle(MouseEvent event) {
-	    				if(arrowBeginX == -1)
-	    				{
-	    					arrowBeginX = event.getX();
-	    					arrowBeginY = event.getY();
-	    				}
-	    				else
-	    				{
-	    					MyShapes arrow = new MyShapes(EShape.Arrow, arrowBeginX,arrowBeginY,event.getX(),event.getY());
-	    					paneDessin.getChildren().add(arrow);
-	    					v.add(arrow);
-	    					arrowBeginX = -1;
-	    					arrowBeginY = -1;
-	    				}	
-                    }  		
-        	});
-    	}
-    	
-    	else if(this.mode == 1)
-    	{
-    		mode = 0;
-    		titledPane1.setCollapsible(true);
-        	titledPane2.setCollapsible(true);
-        	titledPane3.setCollapsible(true);
-        	titledPane4.setCollapsible(true);
-        	buttonArrows.setStyle(null);
-        	paneDessin.setOnMouseClicked(null);
-    	}
-    	
-    }
+    
     @FXML
     void menuCloseClicked(ActionEvent event) {
     	labelStatusBar.setText("Fermeture de l'application...");
@@ -187,6 +229,10 @@ public class FactoryController {
 
     @FXML
     void initialize() {
+    	// STATE PATTERN
+    	state = new DrawState(this);
+    	labelStatusBar.setText(state.toString());
+    	
     	Vindex = 0;
     	v = new Vector<MyShapes>();  
     	myBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5)));
