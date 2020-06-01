@@ -46,6 +46,7 @@
                   </Button>
                   <Button fx:id="Save" mnemonicParsing="false" onAction="#Save" text="Save" />
                   <Button fx:id="Open" mnemonicParsing="false" onAction="#Open" text="Open" />
+                  <Button fx:id="SaveImage" mnemonicParsing="false" onAction="#SaveImage" text="SaveImage" />
                   <Button fx:id="Clear" mnemonicParsing="false" onAction="#Clear" text="Clear" />
                   <Label fx:id="labelModes" alignment="CENTER" prefHeight="35.0" prefWidth="43.0" text="Modes :" />
                   <Button fx:id="buttonArrows" mnemonicParsing="false" onAction="#buttonArrowsClicked" text="Arrows" />

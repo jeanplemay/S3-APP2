@@ -125,6 +125,19 @@ public class FactoryController {
     
     @FXML
     private Button buttonArrows;
+    
+    @FXML
+    private Button Save;
+
+    @FXML
+    private Button Open;
+
+    @FXML
+    private Button SaveImage;
+
+    @FXML
+    private Button Clear;
+
    
     @FXML
     void Clear(ActionEvent event) {
@@ -164,29 +177,10 @@ public class FactoryController {
             	 System.out.println("2");
             	 addShape(tempShape, x, y);
             	 System.out.println("4");
-             /*  System.out.println("1");
-            	x = Double.parseDouble(line);
-            	line = reader.readLine();
-            	y = Double.parseDouble(line);
-            	line = reader.readLine();
-            	tempShape = EShape.valueOf(line);
-            	System.out.println("2");
-            	addShape(tempShape, x, y);
-            	System.out.println("4");*/}
+             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    
-    	
-  	
-    	
-    	/*FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
-		Image image = new Image(new FileInputStream(fileChooser.showOpenDialog(null).getPath()));
-		ImageView imageview = new ImageView();
-		imageview.setImage(image);
-		paneDessin.getChildren().removeAll();
-		paneDessin.getChildren().add(imageview);*/
     }
     
     @FXML
@@ -208,10 +202,6 @@ public class FactoryController {
 				file.write((int) v.elementAt(i).getY()+ " ");
 				shapeWrite = v.elementAt(i).getMyEShape();
 				file.write(shapeWrite.toString()+ "\n");
-				/*file.write((int) v.elementAt(i).getX() + "\n");
-				file.write((int) v.elementAt(i).getY()+ "\n");
-				shapeWrite = v.elementAt(i).getMyEShape();
-				file.write(shapeWrite.toString()+ "\n");*/
 			}
 			file.close();
             labelStatusBar.setText("Saved");
@@ -593,8 +583,6 @@ public class FactoryController {
    	
 	public void addShape(EShape eshape, double x, double y)
 	{
-		System.out.println("3");
-		System.out.println("X: " + x + " Y: " + y);
 		MyShapes myShape = new MyShapes(eshape);
 		myShape.setX(x);
 		myShape.setY(y);
