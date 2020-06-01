@@ -263,11 +263,59 @@ public class FactoryController {
             	 y = Double.parseDouble(splited[1]);
             	 tempShape = EShape.valueOf(splited[2]);
  				if(tempShape == EShape.SimpleArrow || tempShape == EShape.DoubleArrow) {
+ 					int lastClickedIndex = ((int)x);
+ 					int clickedIndex = ((int)y);
+ 				// TYPES DE FORMES
+					EShape eshape1 = ((MyShapes) paneDessin.getChildren().get(lastClickedIndex)).getMyEShape();
+					EShape eshape2 = ((MyShapes) paneDessin.getChildren().get(clickedIndex)).getMyEShape();
+					
+					// AJUSTEMENTS POUR LES CARRÉS
+					double ajustX1 = paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getWidth();
+					double ajustY1 = paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getHeight()/2;
+					double ajustX2 = 0;
+					double ajustY2 = paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getHeight()/2;
+					if(paneDessin.getChildren().get(lastClickedIndex).getLayoutX() >
+						paneDessin.getChildren().get(clickedIndex).getLayoutX())
+					{
+						ajustX1 =0;
+						ajustX2 = paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getWidth();
+					}
+					
+					// AJUSTEMENTS SI LA FORME DE DÉPART EST UN ROND/OVALE 
+					if(eshape1 == EShape.EnergySource || eshape1 == EShape.MultiPhysicalConverter ||
+							eshape1 == EShape.EnergySourceEstimator || eshape1 == EShape.MultiPhysicalConverterEstimator)
+					{
+						ajustX1 /= 2;
+						ajustY1 = 0;
+						if(paneDessin.getChildren().get(lastClickedIndex).getLayoutX() >
+						paneDessin.getChildren().get(clickedIndex).getLayoutX())
+    					{
+    						ajustX1 = -paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getWidth() /2;
+    					}
+					}
+					
+					// AJUSTEMENTS SI LA FORME D'ARRIVÉE EST UN ROND/OVALE 
+					if(eshape2 == EShape.EnergySource || eshape2 == EShape.MultiPhysicalConverter ||
+							eshape2 == EShape.EnergySourceEstimator || eshape2 == EShape.MultiPhysicalConverterEstimator)
+					{
+						ajustX2 = -paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getWidth() /2;
+						ajustY2 = 0;
+						if(paneDessin.getChildren().get(lastClickedIndex).getLayoutX() >
+						paneDessin.getChildren().get(clickedIndex).getLayoutX())
+    					{
+    						ajustX2 = paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getWidth() /2;
+    					}
+					}
+ 					
+ 					
+ 					
+ 					
+ 					
  					MyShapes arrow = new MyArrow(tempShape,
- 							v.get((int) x).getX(),
- 							v.get((int) x).getY(),
- 							v.get((int) y).getX(),
- 							v.get((int) y).getY(),
+ 							v.get((int) x).getX()+ajustX1,
+ 							v.get((int) x).getY()+ajustY1,
+ 							v.get((int) y).getX()+ajustX2,
+ 							v.get((int) y).getY()+ajustY2,
  							(int)x, (int)y);
 					paneDessin.getChildren().add(arrow);
 					v.add(arrow);
