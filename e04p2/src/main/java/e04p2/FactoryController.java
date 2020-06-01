@@ -1,7 +1,17 @@
 package e04p2;
 
+import java.awt.image.RenderedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Vector;
+
+import javax.imageio.ImageIO;
+
 import e04p2.MyShapes.EShape;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,6 +21,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -21,6 +33,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -215,7 +228,109 @@ public class FactoryController {
     void buttonFullScreenClicked(ActionEvent event) {
     	labelStatusBar.setText("Activation du mode plein ecran...");
     }
+    @FXML
+    void Clear(ActionEvent event) {
+        v.removeAllElements();
+        paneDessin.getChildren().clear();
+    }
+    
+    @FXML
+    void SaveFXML(ActionEvent event) {
 
+    }
+      
+    @FXML
+    void Open(ActionEvent event) throws IOException {
+    	labelStatusBar.setText("Opening...");
+    	FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+
+        File file = fileChooser.showOpenDialog(null);
+
+        v.removeAllElements();
+        paneDessin.getChildren().clear();
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            double x;
+            double y;
+            EShape tempShape;
+            while ((line = reader.readLine()) != null) {
+	        	 line.trim();
+            	 String[] splited = line.split(" ");
+            	 x = Double.parseDouble(splited[0]);
+            	 y = Double.parseDouble(splited[1]);
+            	 tempShape = EShape.valueOf(splited[2]);
+ 				if(tempShape == EShape.SimpleArrow || tempShape == EShape.DoubleArrow) {
+ 					MyShapes arrow = new MyArrow(tempShape,
+ 							v.get((int) x).getX(),
+ 							v.get((int) x).getY(),
+ 							v.get((int) y).getX(),
+ 							v.get((int) y).getY(),
+ 							(int)x, (int)y);
+					paneDessin.getChildren().add(arrow);
+					v.add(arrow);
+ 				}else	addShape(tempShape, x, y);
+             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    void Save(ActionEvent event)
+    {
+    	labelStatusBar.setText("Saving...");
+    	FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+
+        //File file = fileChooser.showSaveDialog(null);
+        FileWriter file;
+        EShape shapeWrite;
+		try{
+			file = new FileWriter(fileChooser.showSaveDialog(null));
+			for(int i = 0; i < v.size(); i++)
+			{
+				if(v.elementAt(i).getMyEShape() == EShape.SimpleArrow || v.elementAt(i).getMyEShape() == EShape.DoubleArrow)
+				{
+					file.write((int) ((MyArrow) v.elementAt(i)).getStartShapeIndex() + " ");
+					file.write((int) ((MyArrow) v.elementAt(i)).getEndShapeIndex() + " ");
+				} else {
+					file.write((int) v.elementAt(i).getX() + " ");
+					file.write((int) v.elementAt(i).getY()+ " ");
+				}
+				shapeWrite = v.elementAt(i).getMyEShape();
+				file.write(shapeWrite.toString()+ "\n");				
+			}
+			file.close();
+            labelStatusBar.setText("Saved");
+		} catch (IOException e){
+			e.printStackTrace();               
+			labelStatusBar.setText("Fichier Introuvable");
+		}
+    }
+    @FXML
+    void SaveImage(ActionEvent event)
+    {
+    	labelStatusBar.setText("Saving...");
+    	FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
+        File file = fileChooser.showSaveDialog(null);
+
+        if(file != null){
+            try {                
+                WritableImage writableImage = new WritableImage((int)paneDessin.getWidth() , (int)paneDessin.getHeight());
+                Image canvas = paneDessin.snapshot(null, writableImage);
+                RenderedImage renderedImage = SwingFXUtils.fromFXImage(canvas, null);
+                ImageIO.write(renderedImage, "png", file);
+                labelStatusBar.setText("Saved");
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+    }
+    
+    
     @FXML
     void initialize() {
     	// STATE PATTERN
@@ -510,6 +625,8 @@ public class FactoryController {
 		MyShapes myShape = new MyShapes(eshape);
 		v.add(myShape);
 		paneDessin.getChildren().add(myShape);	
+		myShape.setX(x);
+		myShape.setY(y);
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(x);
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(y);
 		//myShape.setIndex(Vindex);
