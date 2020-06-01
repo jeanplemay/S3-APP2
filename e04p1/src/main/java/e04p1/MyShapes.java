@@ -4,11 +4,9 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.transform.Rotate;
 
 // This class makes part of the design pattern MVC together with class FactoryController and scene.fxml
 public class MyShapes extends Group {
@@ -27,7 +25,6 @@ public class MyShapes extends Group {
 						EnergyAccumulationEstimator,
 						MonoPhysicalCouplingEstimator,
 						MultiPhysicalCouplingEstimator,
-						Arrow
 						};
 	static final int a = 30;
 	static final int b = 2;
@@ -37,34 +34,6 @@ public class MyShapes extends Group {
 	public double y;
 	public int index;
 	public EShape myEShape;
-	
-	MyShapes(EShape eshape, double startX, double startY, double endX, double endY )
-	{
-		switch(eshape)
-		{
-			case Arrow :
-				Shape line = new Line(startX,startY,endX,endY);
-				double width =endX-startX;
-				double height = startY-endY;
-				double angle = Math.toDegrees(Math.atan(height/width));
-				if(width < 0) angle += 180;
-				if(angle < 0) angle += 360;
-				Shape line2 = new Line(endX,endY,endX-5,endY-5);
-				line2.getTransforms().add(new Rotate(-angle, endX, endY) );
-				Shape line3 = new Line(endX,endY,endX-5,endY+5);
-				line3.getTransforms().add(new Rotate(-angle, endX, endY) );
-				this.getChildren().add(line);
-				this.getChildren().add(line2);
-				this.getChildren().add(line3);
-				break;
-		default:
-			break;
-
-		}
-		
-		
-		
-	}
 	
 	MyShapes(EShape eshape)
 	{
@@ -273,8 +242,6 @@ public class MyShapes extends Group {
 				this.getChildren().add(c2e);
 				this.getChildren().add(ellipse2);
 				break;
-		default:
-			break;
 				
 				
 		}
@@ -285,7 +252,7 @@ public class MyShapes extends Group {
 		return myEShape;
 	}
 	
-	public void setMyEShape(EShape e) {
+	public void getMyEShape(EShape e) {
 		this.myEShape = e;
 	}
 	

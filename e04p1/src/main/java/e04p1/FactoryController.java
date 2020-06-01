@@ -1,11 +1,8 @@
 package e04p1;
 
 import java.awt.image.RenderedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -16,6 +13,8 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,6 +34,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
+import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
@@ -58,7 +60,7 @@ public class FactoryController {
 	
 	Border myBorder;
 	
-	int mode = 0; // 0 = dessin de composants, 1 = dessin de flï¿½ches
+	int mode = 0; // 0 = dessin de composants, 1 = dessin de flèches
 	double arrowBeginX = -1;
 	double arrowBeginY = -1;
 	
@@ -123,116 +125,16 @@ public class FactoryController {
     @FXML
     private Button buttonAdd;
     
+    @FXML  
+    private Button Save;
+    
+    @FXML  
+    private Button SaveFXML;
+    
     @FXML
     private Button buttonArrows;
-    
-    @FXML
-    private Button Save;
-
-    @FXML
-    private Button Open;
-
-    @FXML
-    private Button SaveImage;
-
-    @FXML
-    private Button Clear;
-
    
-    @FXML
-    void Clear(ActionEvent event) {
-        v.removeAllElements();
-        paneDessin.getChildren().clear();
-    }
-    
-    @FXML
-    void SaveFXML(ActionEvent event) {
-
-    }
       
-    @FXML
-    void Open(ActionEvent event) throws IOException {
-    	labelStatusBar.setText("Opening...");
-    	FileChooser fileChooser = new FileChooser();
-
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
-
-        File file = fileChooser.showOpenDialog(null);
-
-        v.removeAllElements();
-        paneDessin.getChildren().clear();
-        
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            double x;
-            double y;
-            EShape tempShape;
-            while ((line = reader.readLine()) != null) {
-	        	 System.out.println("1");
-	        	 line.trim();
-            	 String[] splited = line.split(" ");
-            	 x = Double.parseDouble(splited[0]);
-            	 y = Double.parseDouble(splited[1]);
-            	 tempShape = EShape.valueOf(splited[2]);
-            	 System.out.println("2");
-            	 addShape(tempShape, x, y);
-            	 System.out.println("4");
-             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @FXML
-    void Save(ActionEvent event)
-    {
-    	labelStatusBar.setText("Saving...");
-    	FileChooser fileChooser = new FileChooser();
-
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
-
-        //File file = fileChooser.showSaveDialog(null);
-        FileWriter file;
-        EShape shapeWrite;
-		try{
-			file = new FileWriter(fileChooser.showSaveDialog(null));
-			for(int i = 0; i < v.size(); i++)
-			{
-				//if(v.elementAt(i).getMyEShape() == EShape.simpleArrow || v.elementAt(i).getMyEShape() == EShape.doubleArrow)
-				{
-					
-				}
-				file.write((int) v.elementAt(i).getX() + " ");
-				file.write((int) v.elementAt(i).getY()+ " ");
-				shapeWrite = v.elementAt(i).getMyEShape();
-				file.write(shapeWrite.toString()+ "\n");
-			}
-			file.close();
-            labelStatusBar.setText("Saved");
-		} catch (IOException e){
-			e.printStackTrace();               
-			labelStatusBar.setText("Fichier Introuvable");
-		}
-    }
-    @FXML
-    void SaveImage(ActionEvent event)
-    {
-    	labelStatusBar.setText("Saving...");
-    	FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
-        File file = fileChooser.showSaveDialog(null);
-
-        if(file != null){
-            try {                
-                WritableImage writableImage = new WritableImage((int)paneDessin.getWidth() , (int)paneDessin.getHeight());
-                Image canvas = paneDessin.snapshot(null, writableImage);
-                RenderedImage renderedImage = SwingFXUtils.fromFXImage(canvas, null);
-                ImageIO.write(renderedImage, "png", file);
-                labelStatusBar.setText("Saved");
-            } catch (IOException ex) { ex.printStackTrace(); }
-        }
-    }
-    
     
     @FXML
     void buttonArrowsClicked(ActionEvent event) {
@@ -261,9 +163,18 @@ public class FactoryController {
 	    				}
 	    				else
 	    				{
-	    					MyShapes arrow = new MyShapes(EShape.Arrow, arrowBeginX,arrowBeginY,event.getX(),event.getY());
+	    					Shape line = new Line(arrowBeginX,arrowBeginY,event.getX(),event.getY());
+	    					double width = event.getX()-arrowBeginX;
+	    					double height = arrowBeginY-event.getY();
+	    					double angle = Math.toDegrees(Math.atan(height/width));
+	    					if(width < 0) angle += 180;
+	    					if(angle < 0) angle += 360;
+	    					Shape line2 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()-5);
+	    					line2.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
+	    					Shape line3 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()+5);
+	    					line3.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
+	    					Group arrow = new Group(line,line2,line3) ;
 	    					paneDessin.getChildren().add(arrow);
-	    					v.add(arrow);
 	    					arrowBeginX = -1;
 	    					arrowBeginY = -1;
 	    				}	
@@ -588,8 +499,6 @@ public class FactoryController {
 	public void addShape(EShape eshape, double x, double y)
 	{
 		MyShapes myShape = new MyShapes(eshape);
-		myShape.setX(x);
-		myShape.setY(y);
 		v.add(myShape);
 		paneDessin.getChildren().add(myShape);	
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(x);
