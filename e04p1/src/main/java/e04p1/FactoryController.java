@@ -198,6 +198,10 @@ public class FactoryController {
 			file = new FileWriter(fileChooser.showSaveDialog(null));
 			for(int i = 0; i < v.size(); i++)
 			{
+				//if(v.elementAt(i).getMyEShape() == EShape.simpleArrow || v.elementAt(i).getMyEShape() == EShape.doubleArrow)
+				{
+					
+				}
 				file.write((int) v.elementAt(i).getX() + " ");
 				file.write((int) v.elementAt(i).getY()+ " ");
 				shapeWrite = v.elementAt(i).getMyEShape();

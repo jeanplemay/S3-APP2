@@ -83,6 +83,8 @@ public class MyShapes extends Group {
 				this.getChildren().add(line2d);
 				this.getChildren().add(line3d);
 				break;
+		default:
+			break;
 
 		}
 		
@@ -297,6 +299,8 @@ public class MyShapes extends Group {
 				this.getChildren().add(c2e);
 				this.getChildren().add(ellipse2);
 				break;
+		default:
+			break;
 				
 				
 		}
