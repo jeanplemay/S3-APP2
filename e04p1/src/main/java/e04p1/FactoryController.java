@@ -1,7 +1,18 @@
 package e04p1;
 
+import java.awt.image.RenderedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Vector;
+
+import javax.imageio.ImageIO;
+
 import e04p1.MyShapes.EShape;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,6 +22,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -21,6 +35,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -43,7 +58,7 @@ public class FactoryController {
 	
 	Border myBorder;
 	
-	int mode = 0; // 0 = dessin de composants, 1 = dessin de flèches
+	int mode = 0; // 0 = dessin de composants, 1 = dessin de flï¿½ches
 	double arrowBeginX = -1;
 	double arrowBeginY = -1;
 	
@@ -112,10 +127,119 @@ public class FactoryController {
     private Button buttonArrows;
    
     @FXML
+    void Clear(ActionEvent event) {
+        v.removeAllElements();
+        paneDessin.getChildren().clear();
+    }
+    
+    @FXML
     void SaveFXML(ActionEvent event) {
 
     }
       
+    @FXML
+    void Open(ActionEvent event) throws IOException {
+    	labelStatusBar.setText("Opening...");
+    	FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+
+        File file = fileChooser.showOpenDialog(null);
+
+        v.removeAllElements();
+        paneDessin.getChildren().clear();
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            double x;
+            double y;
+            EShape tempShape;
+            while ((line = reader.readLine()) != null) {
+	        	 System.out.println("1");
+	        	 line.trim();
+            	 String[] splited = line.split(" ");
+            	 x = Double.parseDouble(splited[0]);
+            	 y = Double.parseDouble(splited[1]);
+            	 tempShape = EShape.valueOf(splited[2]);
+            	 System.out.println("2");
+            	 addShape(tempShape, x, y);
+            	 System.out.println("4");
+             /*  System.out.println("1");
+            	x = Double.parseDouble(line);
+            	line = reader.readLine();
+            	y = Double.parseDouble(line);
+            	line = reader.readLine();
+            	tempShape = EShape.valueOf(line);
+            	System.out.println("2");
+            	addShape(tempShape, x, y);
+            	System.out.println("4");*/}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    
+    	
+  	
+    	
+    	/*FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
+		Image image = new Image(new FileInputStream(fileChooser.showOpenDialog(null).getPath()));
+		ImageView imageview = new ImageView();
+		imageview.setImage(image);
+		paneDessin.getChildren().removeAll();
+		paneDessin.getChildren().add(imageview);*/
+    }
+    
+    @FXML
+    void Save(ActionEvent event)
+    {
+    	labelStatusBar.setText("Saving...");
+    	FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+
+        //File file = fileChooser.showSaveDialog(null);
+        FileWriter file;
+        EShape shapeWrite;
+		try{
+			file = new FileWriter(fileChooser.showSaveDialog(null));
+			for(int i = 0; i < v.size(); i++)
+			{
+				file.write((int) v.elementAt(i).getX() + " ");
+				file.write((int) v.elementAt(i).getY()+ " ");
+				shapeWrite = v.elementAt(i).getMyEShape();
+				file.write(shapeWrite.toString()+ "\n");
+				/*file.write((int) v.elementAt(i).getX() + "\n");
+				file.write((int) v.elementAt(i).getY()+ "\n");
+				shapeWrite = v.elementAt(i).getMyEShape();
+				file.write(shapeWrite.toString()+ "\n");*/
+			}
+			file.close();
+            labelStatusBar.setText("Saved");
+		} catch (IOException e){
+			e.printStackTrace();               
+			labelStatusBar.setText("Fichier Introuvable");
+		}
+    }
+    @FXML
+    void SaveImage(ActionEvent event)
+    {
+    	labelStatusBar.setText("Saving...");
+    	FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
+        File file = fileChooser.showSaveDialog(null);
+
+        if(file != null){
+            try {                
+                WritableImage writableImage = new WritableImage((int)paneDessin.getWidth() , (int)paneDessin.getHeight());
+                Image canvas = paneDessin.snapshot(null, writableImage);
+                RenderedImage renderedImage = SwingFXUtils.fromFXImage(canvas, null);
+                ImageIO.write(renderedImage, "png", file);
+                labelStatusBar.setText("Saved");
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+    }
+    
+    
     @FXML
     void buttonArrowsClicked(ActionEvent event) {
     	labelStatusBar.setText("Mode arrows");
@@ -469,7 +593,11 @@ public class FactoryController {
    	
 	public void addShape(EShape eshape, double x, double y)
 	{
+		System.out.println("3");
+		System.out.println("X: " + x + " Y: " + y);
 		MyShapes myShape = new MyShapes(eshape);
+		myShape.setX(x);
+		myShape.setY(y);
 		v.add(myShape);
 		paneDessin.getChildren().add(myShape);	
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(x);
