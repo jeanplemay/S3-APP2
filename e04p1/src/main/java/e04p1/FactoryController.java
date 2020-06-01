@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,6 +34,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
+import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
@@ -55,6 +59,11 @@ public class FactoryController {
 	int Vindex;
 	
 	Border myBorder;
+	
+	int mode = 0; // 0 = dessin de composants, 1 = dessin de flèches
+	double arrowBeginX = -1;
+	double arrowBeginY = -1;
+	
 	
     @FXML
     private MenuItem menuDelete;
@@ -121,6 +130,9 @@ public class FactoryController {
     
     @FXML  
     private Button SaveFXML;
+    
+    @FXML
+    private Button buttonArrows;
    
     @FXML
     void SaveFXML(ActionEvent event) {
@@ -161,6 +173,65 @@ public class FactoryController {
         }
     }
     
+    
+    @FXML
+    void buttonArrowsClicked(ActionEvent event) {
+    	labelStatusBar.setText("Mode arrows");
+    	
+    	if(this.mode == 0)
+    	{
+    		mode = 1;
+    		titledPane1.setExpanded(false);
+        	titledPane2.setExpanded(false);
+        	titledPane3.setExpanded(false);
+        	titledPane4.setExpanded(false);
+        	titledPane1.setCollapsible(false);
+        	titledPane2.setCollapsible(false);
+        	titledPane3.setCollapsible(false);
+        	titledPane4.setCollapsible(false);
+        	buttonArrows.setStyle("-fx-background-color: green;");
+        	
+        	paneDessin.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    			@Override
+    			public void handle(MouseEvent event) {
+	    				if(arrowBeginX == -1)
+	    				{
+	    					arrowBeginX = event.getX();
+	    					arrowBeginY = event.getY();
+	    				}
+	    				else
+	    				{
+	    					Shape line = new Line(arrowBeginX,arrowBeginY,event.getX(),event.getY());
+	    					double width = event.getX()-arrowBeginX;
+	    					double height = arrowBeginY-event.getY();
+	    					double angle = Math.toDegrees(Math.atan(height/width));
+	    					if(width < 0) angle += 180;
+	    					if(angle < 0) angle += 360;
+	    					Shape line2 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()-5);
+	    					line2.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
+	    					Shape line3 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()+5);
+	    					line3.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
+	    					Group arrow = new Group(line,line2,line3) ;
+	    					paneDessin.getChildren().add(arrow);
+	    					arrowBeginX = -1;
+	    					arrowBeginY = -1;
+	    				}	
+                    }  		
+        	});
+    	}
+    	
+    	else if(this.mode == 1)
+    	{
+    		mode = 0;
+    		titledPane1.setCollapsible(true);
+        	titledPane2.setCollapsible(true);
+        	titledPane3.setCollapsible(true);
+        	titledPane4.setCollapsible(true);
+        	buttonArrows.setStyle(null);
+        	paneDessin.setOnMouseClicked(null);
+    	}
+    	
+    }
     @FXML
     void menuCloseClicked(ActionEvent event) {
     	labelStatusBar.setText("Fermeture de l'application...");
@@ -168,17 +239,17 @@ public class FactoryController {
 
     @FXML
     void menuDeleteClicked(ActionEvent event) {
-    	labelStatusBar.setText("Supression de l'ï¿½lï¿½ment...");
+    	labelStatusBar.setText("Supression de l'element...");
     }
     
     @FXML
     void buttonAddClicked(ActionEvent event) {
-    	labelStatusBar.setText("Ajout d'un ï¿½lï¿½ment...");
+    	labelStatusBar.setText("Ajout d'un element...");
     }
 
     @FXML
     void buttonFullScreenClicked(ActionEvent event) {
-    	labelStatusBar.setText("Activation du mode plein ï¿½cran...");
+    	labelStatusBar.setText("Activation du mode plein ecran...");
     }
 
     @FXML
@@ -190,7 +261,7 @@ public class FactoryController {
     	paneDessin.setBorder(myBorder);
     	paneDessin.setOnDragEntered(new EventHandler<DragEvent>() {
 			@Override	
-			public void handle(DragEvent event) {			
+			public void handle(DragEvent event) {
 				event.acceptTransferModes(TransferMode.ANY);
 		    	paneDessin.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5))));
 			}	
@@ -215,6 +286,8 @@ public class FactoryController {
                 event.consume();
                 }  		
     	});
+    	
+    	
 
     	//Energy source
     	MyShapes energySource = new MyShapes(EShape.EnergySource);
