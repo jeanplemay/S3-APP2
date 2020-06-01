@@ -18,28 +18,6 @@ public class ConnectionState implements State {
 		fController.getTitledPane3().setCollapsible(false);
 		fController.getTitledPane4().setCollapsible(false);
 		fController.getButtonArrows().setStyle("-fx-background-color: green;");
-		
-//		fController.getPaneDessin().setOnMouseClicked(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent event) {
-//				System.out.println(event.getSource().toString());
-//    				if(fController.getArrowBeginX() == -1)
-//    				{
-//    					fController.setArrowBeginX(event.getX());
-//    					fController.setArrowBeginY(event.getY());
-//    				}
-//    				else
-//    				{
-//    					
-//    					MyShapes arrow = new MyArrow(EShape.Arrow, fController.getArrowBeginX(),
-//    					fController.getArrowBeginY(),event.getX(),event.getY());
-//    					fController.getPaneDessin().getChildren().add(arrow);
-//    					fController.getV().add(arrow);
-//    					fController.setArrowBeginX(-1);
-//    					fController.setArrowBeginY(-1);
-//    				}	
-//                }  		
-//    	});
 	}
 	
 	public void simpleRedArrow(FactoryController fController)

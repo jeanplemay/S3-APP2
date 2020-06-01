@@ -46,10 +46,11 @@ public class MyShapes extends Group {
 		switch(eshape)
 		{
 			case SimpleArrow :
-				Shape line = new Line(startX,startY,endX,endY);
 				double width =endX-startX;
 				double height = startY-endY;
 				double angle = Math.toDegrees(Math.atan(height/width));
+				
+				Shape line = new Line(startX,startY,endX,endY);
 				if(width < 0) angle += 180;
 				if(angle < 0) angle += 360;
 				Shape line2 = new Line(endX,endY,endX-5,endY-5);
@@ -65,11 +66,11 @@ public class MyShapes extends Group {
 				break;
 				
 			case DoubleArrow :
-				Shape lined = new Line(startX,startY,endX,endY);
-				Shape lined2 = new Line(startX,startY,endX,endY);
 				double widthd =endX-startX;
 				double heightd = startY-endY;
 				double angled = Math.toDegrees(Math.atan(heightd/widthd));
+				Shape lined = new Line(startX,startY,endX,endY);
+				Shape lined2 = new Line(startX,startY,endX,endY);
 				if(widthd < 0) angled += 180;
 				if(angled < 0) angled += 360;
 				lined.getTransforms().add(new Translate(Math.cos(angled)*-2, Math.sin(angled)*-2) );
