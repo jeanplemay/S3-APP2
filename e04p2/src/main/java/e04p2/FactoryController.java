@@ -1,7 +1,7 @@
-package e04p1;
+package e04p2;
 
 import java.util.Vector;
-import e04p1.MyShapes.EShape;
+import e04p2.MyShapes.EShape;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

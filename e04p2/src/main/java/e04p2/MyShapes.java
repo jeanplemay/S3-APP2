@@ -1,4 +1,4 @@
-package e04p1;
+package e04p2;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;

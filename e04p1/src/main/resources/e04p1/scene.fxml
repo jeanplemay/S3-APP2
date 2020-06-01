@@ -48,9 +48,6 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button fx:id="Save" mnemonicParsing="false" onAction="#Save" text="Save" />
-                  <Button mnemonicParsing="false" onAction="#SaveFXML" text="SaveFXML" />
-                  <Button mnemonicParsing="false" onAction="#Open" text="Open" />
                   <Label fx:id="labelModes" alignment="CENTER" prefHeight="35.0" prefWidth="43.0" text="Modes :" />
                   <Button fx:id="buttonArrows" mnemonicParsing="false" onAction="#buttonArrowsClicked" text="Arrows" />
                </children></HBox>
