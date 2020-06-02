@@ -47,6 +47,7 @@ import javafx.scene.input.TransferMode;
 //This class makes part of the design pattern MVC together with class MyShapes and scene.fxml
 public class FactoryController {
 	
+	Invoker invoker;
 	
 	Vector<MyShapes> v;
 	
@@ -133,10 +134,57 @@ public class FactoryController {
     
     @FXML
     private Button buttonArrows;
+    
+    
+    @FXML
+    private MenuItem menuUndo;
+    
+    @FXML
+    private MenuItem menuRedo;
+    
+    
    
       
     
-    @FXML
+    public EShape getDraggedShape() {
+		return draggedShape;
+	}
+	public void setDraggedShape(EShape draggedShape) {
+		this.draggedShape = draggedShape;
+	}
+	public int getDraggedIndex() {
+		return draggedIndex;
+	}
+	public void setDraggedIndex(int draggedIndex) {
+		this.draggedIndex = draggedIndex;
+	}
+	public Pane getPaneDessin() {
+		return paneDessin;
+	}
+	public void setPaneDessin(Pane paneDessin) {
+		this.paneDessin = paneDessin;
+	}
+	public Vector<MyShapes> getV() {
+		return v;
+	}
+	public void setV(Vector<MyShapes> v) {
+		this.v = v;
+	}
+	
+	@FXML
+    void menuUndoClicked(ActionEvent event) {
+		invoker.undo();
+		
+	}
+	
+	@FXML
+    void menuRedoClicked(ActionEvent event) {
+		invoker.redo();
+		
+	}
+	
+	
+	@FXML
     void buttonArrowsClicked(ActionEvent event) {
     	labelStatusBar.setText("Mode arrows");
     	
@@ -163,18 +211,19 @@ public class FactoryController {
 	    				}
 	    				else
 	    				{
-	    					Shape line = new Line(arrowBeginX,arrowBeginY,event.getX(),event.getY());
-	    					double width = event.getX()-arrowBeginX;
-	    					double height = arrowBeginY-event.getY();
-	    					double angle = Math.toDegrees(Math.atan(height/width));
-	    					if(width < 0) angle += 180;
-	    					if(angle < 0) angle += 360;
-	    					Shape line2 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()-5);
-	    					line2.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
-	    					Shape line3 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()+5);
-	    					line3.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
-	    					Group arrow = new Group(line,line2,line3) ;
-	    					paneDessin.getChildren().add(arrow);
+//	    					Shape line = new Line(arrowBeginX,arrowBeginY,event.getX(),event.getY());
+//	    					double width = event.getX()-arrowBeginX;
+//	    					double height = arrowBeginY-event.getY();
+//	    					double angle = Math.toDegrees(Math.atan(height/width));
+//	    					if(width < 0) angle += 180;
+//	    					if(angle < 0) angle += 360;
+//	    					Shape line2 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()-5);
+//	    					line2.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
+//	    					Shape line3 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()+5);
+//	    					line3.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
+//	    					Group arrow = new Group(line,line2,line3) ;
+//	    					paneDessin.getChildren().add(arrow);
+	    					addArrow(arrowBeginX,arrowBeginY,event.getX(),event.getY());
 	    					arrowBeginX = -1;
 	    					arrowBeginY = -1;
 	    				}	
@@ -216,6 +265,8 @@ public class FactoryController {
 
     @FXML
     void initialize() {
+    	invoker = new Invoker(this);
+    	
     	Vindex = 0;
     	v = new Vector<MyShapes>();  
     	myBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5)));
@@ -498,42 +549,17 @@ public class FactoryController {
    	
 	public void addShape(EShape eshape, double x, double y)
 	{
-		MyShapes myShape = new MyShapes(eshape);
-		v.add(myShape);
-		paneDessin.getChildren().add(myShape);	
-		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(x);
-		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(y);
-		//myShape.setIndex(Vindex);
-		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnDragDetected(new EventHandler<MouseEvent>(){
+		AddShapeCommand co = new AddShapeCommand(this,eshape,x,y);
+		invoker.addCommand(co);
+		co.execute();
 
-			@Override
-			public void handle(MouseEvent event) {				
-				Dragboard db = paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).startDragAndDrop(TransferMode.ANY);
-				ClipboardContent content = new ClipboardContent();
-		        content.putString("Dragged");
-				db.setContent(content);
-				draggedShape = eshape;		
-				for(int i = 0; i < paneDessin.getChildren().size(); i++)
-				{
-					if(paneDessin.getChildren().get(i).equals(((Node) event.getSource())))
-					{
-						draggedIndex = i;
-						break;
-					}
-				}
-			}
-			
-		});
-		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnDragDone(new EventHandler<DragEvent>() {
+	}
+	public void addArrow(double x1, double y1, double x2, double y2)
+	{
+		AddArrowCommand co = new AddArrowCommand(this,EShape.Arrow,x1,y1,x2,y2);
+		invoker.addCommand(co);
+		co.execute();
 
-			@Override
-			public void handle(DragEvent event) {
-				//v.remove(((MyShapes) paneDessin.getChildren().get(draggedIndex)).getIndex());
-				paneDessin.getChildren().remove(draggedIndex);					
-			}
-			
-		});
-		
 	}
 	
 }
