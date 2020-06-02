@@ -192,19 +192,19 @@ public class FactoryController {
     void buttonArrowsClicked(ActionEvent event) {
 		state.changeState(this);
 		labelStatusBar.setText(state.toString());
-
+		event.consume();
 	}
 	
 	@FXML
     void simpleArrowClicked(ActionEvent event) {
 		state.simpleRedArrow(this);
-
+		event.consume();
 	}
 	
 	@FXML
     void doubleArrowClicked(ActionEvent event) {
 		state.doubleBlackArrow(this);
-
+		event.consume();
 	}
 
     	
@@ -212,40 +212,69 @@ public class FactoryController {
     @FXML
     void menuCloseClicked(ActionEvent event) {
     	labelStatusBar.setText("Fermeture de l'application...");
+    	event.consume();
     }
 
     @FXML
     void menuDeleteClicked(ActionEvent event) {
     	labelStatusBar.setText("Supression de l'element...");
+    	event.consume();
     }
     
     @FXML
     void buttonAddClicked(ActionEvent event) {
     	labelStatusBar.setText("Ajout d'un element...");
+    	event.consume();
     }
 
     @FXML
     void buttonFullScreenClicked(ActionEvent event) {
     	labelStatusBar.setText("Activation du mode plein ecran...");
+    	event.consume();
     }
     @FXML
     void Clear(ActionEvent event) {
         v.removeAllElements();
         paneDessin.getChildren().clear();
+        event.consume();
+    }
+    @FXML
+    void openFXML(ActionEvent event) {
+    	labelStatusBar.setText("Opening From xml...");
+    	FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files (*.xml)", "*.xml"));
+        fileChooser.setInitialFileName("myCanvas.txt");
+        File file = fileChooser.showOpenDialog(null);
+
+        v.removeAllElements();
+        paneDessin.getChildren().clear();
+        
+        
+        //	STUFF...
+        
+        event.consume();
     }
     
     @FXML
     void SaveFXML(ActionEvent event) {
+    	labelStatusBar.setText("Saving to xml...");
+    	FileChooser fileChooser = new FileChooser();
 
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+        fileChooser.setInitialFileName("myCanvas.txt");
+        
+        //	STUF...
+        
+        event.consume();
     }
       
     @FXML
     void Open(ActionEvent event) throws IOException {
-    	labelStatusBar.setText("Opening...");
+    	labelStatusBar.setText("Opening from .txt...");
     	FileChooser fileChooser = new FileChooser();
 
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
-
         File file = fileChooser.showOpenDialog(null);
 
         v.removeAllElements();
@@ -269,7 +298,7 @@ public class FactoryController {
 					EShape eshape1 = ((MyShapes) paneDessin.getChildren().get(lastClickedIndex)).getMyEShape();
 					EShape eshape2 = ((MyShapes) paneDessin.getChildren().get(clickedIndex)).getMyEShape();
 					
-					// AJUSTEMENTS POUR LES CARRÉS
+					// AJUSTEMENTS POUR LES CARRï¿½S
 					double ajustX1 = paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getWidth();
 					double ajustY1 = paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getHeight()/2;
 					double ajustX2 = 0;
@@ -281,7 +310,7 @@ public class FactoryController {
 						ajustX2 = paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getWidth();
 					}
 					
-					// AJUSTEMENTS SI LA FORME DE DÉPART EST UN ROND/OVALE 
+					// AJUSTEMENTS SI LA FORME DE Dï¿½PART EST UN ROND/OVALE 
 					if(eshape1 == EShape.EnergySource || eshape1 == EShape.MultiPhysicalConverter ||
 							eshape1 == EShape.EnergySourceEstimator || eshape1 == EShape.MultiPhysicalConverterEstimator)
 					{
@@ -294,7 +323,7 @@ public class FactoryController {
     					}
 					}
 					
-					// AJUSTEMENTS SI LA FORME D'ARRIVÉE EST UN ROND/OVALE 
+					// AJUSTEMENTS SI LA FORME D'ARRIVï¿½E EST UN ROND/OVALE 
 					if(eshape2 == EShape.EnergySource || eshape2 == EShape.MultiPhysicalConverter ||
 							eshape2 == EShape.EnergySourceEstimator || eshape2 == EShape.MultiPhysicalConverterEstimator)
 					{
@@ -306,11 +335,7 @@ public class FactoryController {
     						ajustX2 = paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getWidth() /2;
     					}
 					}
- 					
- 					
- 					
- 					
- 					
+				
  					MyShapes arrow = new MyArrow(tempShape,
  							v.get((int) x).getX()+ajustX1,
  							v.get((int) x).getY()+ajustY1,
@@ -324,21 +349,21 @@ public class FactoryController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        event.consume();
     }
     
     @FXML
     void Save(ActionEvent event)
     {
-    	labelStatusBar.setText("Saving...");
+    	labelStatusBar.setText("Saving to .txt...");
     	FileChooser fileChooser = new FileChooser();
 
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+        fileChooser.setInitialFileName("myCanvas.txt");
 
-        //File file = fileChooser.showSaveDialog(null);
-        FileWriter file;
         EShape shapeWrite;
 		try{
-			file = new FileWriter(fileChooser.showSaveDialog(null));
+			FileWriter file = new FileWriter(fileChooser.showSaveDialog(null));
 			for(int i = 0; i < v.size(); i++)
 			{
 				if(v.elementAt(i).getMyEShape() == EShape.SimpleArrow || v.elementAt(i).getMyEShape() == EShape.DoubleArrow)
@@ -358,6 +383,7 @@ public class FactoryController {
 			e.printStackTrace();               
 			labelStatusBar.setText("Fichier Introuvable");
 		}
+		event.consume();
     }
     @FXML
     void SaveImage(ActionEvent event)
@@ -376,6 +402,7 @@ public class FactoryController {
                 labelStatusBar.setText("Saved");
             } catch (IOException ex) { ex.printStackTrace(); }
         }
+        event.consume();
     }
     
     
@@ -395,28 +422,28 @@ public class FactoryController {
 			public void handle(DragEvent event) {
 				event.acceptTransferModes(TransferMode.ANY);
 		    	paneDessin.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5))));
+		    	event.consume();
 			}	
     	});
     	paneDessin.setOnDragExited(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(DragEvent event) {
 				paneDessin.setBorder(myBorder);
+				event.consume();
 			}
     		
     	});
     	paneDessin.setOnDragOver(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(DragEvent event) {
-				event.acceptTransferModes(TransferMode.ANY);				
+				event.acceptTransferModes(TransferMode.ANY);
+				event.consume();
 			}   		
     	});
     	paneDessin.setOnDragDropped(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(DragEvent event) {	
-				addShape(draggedShape, event.getSceneX() - 166, event.getSceneY() - 50);
-				
-				
-				
+				addShape(draggedShape, event.getSceneX() - 166, event.getSceneY() - 50);			
                 event.consume();
                 }  		
     	});
@@ -435,7 +462,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.EnergySource;		
+				draggedShape = EShape.EnergySource;
+				event.consume();
 			}    		
     	});
  	
@@ -451,7 +479,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MonoPhysicalConverter;		
+				draggedShape = EShape.MonoPhysicalConverter;	
+				event.consume();
 			}    		
     	});
     	
@@ -467,7 +496,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MultiPhysicalConverter;		
+				draggedShape = EShape.MultiPhysicalConverter;	
+				event.consume();
 			}    		
     	});  	
     	
@@ -483,7 +513,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.EnergyAccumulation;		
+				draggedShape = EShape.EnergyAccumulation;	
+				event.consume();
 			}    		
     	}); 
     	
@@ -500,6 +531,7 @@ public class FactoryController {
 		        content.putString("Dragged");
 				db.setContent(content);
 				draggedShape = EShape.MonoPhysicalCoupling;		
+				event.consume();
 			}    		
     	}); 
     	
@@ -515,7 +547,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MultiPhysicalCoupling;		
+				draggedShape = EShape.MultiPhysicalCoupling;	
+				event.consume();
 			}    		
     	}); 
     	
@@ -532,6 +565,7 @@ public class FactoryController {
 		        content.putString("Dragged");
 				db.setContent(content);
 				draggedShape = EShape.DirectInversion;		
+				event.consume();
 			}    		
     	}); 
     	
@@ -548,7 +582,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.IndirectInversion;		
+				draggedShape = EShape.IndirectInversion;	
+				event.consume();
 			}    		
     	}); 
     	
@@ -565,7 +600,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.Strategy;		
+				draggedShape = EShape.Strategy;
+				event.consume();
 			}    		
     	}); 
     	
@@ -582,7 +618,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.EnergySourceEstimator;		
+				draggedShape = EShape.EnergySourceEstimator;
+				event.consume();
 			}    		
     	}); 
     	
@@ -598,7 +635,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MonoPhysicalConverterEstimator;		
+				draggedShape = EShape.MonoPhysicalConverterEstimator;	
+				event.consume();
 			}    		
     	});  	
     	
@@ -614,7 +652,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MultiPhysicalConverterEstimator;		
+				draggedShape = EShape.MultiPhysicalConverterEstimator;	
+				event.consume();
 			}    		
     	}); 
     	
@@ -630,7 +669,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.EnergyAccumulationEstimator;		
+				draggedShape = EShape.EnergyAccumulationEstimator;	
+				event.consume();
 			}    		
     	}); 
     	 
@@ -647,6 +687,7 @@ public class FactoryController {
 		        content.putString("Dragged");
 				db.setContent(content);
 				draggedShape = EShape.MonoPhysicalCouplingEstimator;		
+				event.consume();
 			}    		
     	}); 
     	   	
@@ -663,7 +704,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MultiPhysicalCouplingEstimator;		
+				draggedShape = EShape.MultiPhysicalCouplingEstimator;	
+				event.consume();
 			}    		
     	}); 
     }
@@ -695,7 +737,7 @@ public class FactoryController {
 						break;
 					}
 				}
-									
+				event.consume();					
 			}
 			
 		});
@@ -704,7 +746,8 @@ public class FactoryController {
 			@Override
 			public void handle(DragEvent event) {
 				//v.remove(((MyShapes) paneDessin.getChildren().get(draggedIndex)).getIndex());
-				paneDessin.getChildren().remove(draggedIndex);					
+				paneDessin.getChildren().remove(draggedIndex);
+				event.consume();
 			}
 			
 		});
@@ -736,7 +779,7 @@ public class FactoryController {
 	    					EShape eshape1 = ((MyShapes) paneDessin.getChildren().get(lastClickedIndex)).getMyEShape();
 	    					EShape eshape2 = ((MyShapes) paneDessin.getChildren().get(clickedIndex)).getMyEShape();
 	    					
-	    					// AJUSTEMENTS POUR LES CARRÉS
+	    					// AJUSTEMENTS POUR LES CARRï¿½S
 	    					double ajustX1 = paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getWidth();
 	    					double ajustY1 = paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getHeight()/2;
 	    					double ajustX2 = 0;
@@ -748,7 +791,7 @@ public class FactoryController {
 	    						ajustX2 = paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getWidth();
 	    					}
 	    					
-	    					// AJUSTEMENTS SI LA FORME DE DÉPART EST UN ROND/OVALE 
+	    					// AJUSTEMENTS SI LA FORME DE Dï¿½PART EST UN ROND/OVALE 
 	    					if(eshape1 == EShape.EnergySource || eshape1 == EShape.MultiPhysicalConverter ||
 	    							eshape1 == EShape.EnergySourceEstimator || eshape1 == EShape.MultiPhysicalConverterEstimator)
 	    					{
@@ -761,7 +804,7 @@ public class FactoryController {
 		    					}
 	    					}
 	    					
-	    					// AJUSTEMENTS SI LA FORME D'ARRIVÉE EST UN ROND/OVALE 
+	    					// AJUSTEMENTS SI LA FORME D'ARRIVï¿½E EST UN ROND/OVALE 
 	    					if(eshape2 == EShape.EnergySource || eshape2 == EShape.MultiPhysicalConverter ||
 	    							eshape2 == EShape.EnergySourceEstimator || eshape2 == EShape.MultiPhysicalConverterEstimator)
 	    					{
@@ -774,7 +817,7 @@ public class FactoryController {
 		    					}
 	    					}
 	    					
-	    					// AJOUT DE LA FLÈCHE
+	    					// AJOUT DE LA FLï¿½CHE
 	    					MyShapes arrow = new MyArrow(arrowStyle,
 	    							paneDessin.getChildren().get(lastClickedIndex).getLayoutX() + ajustX1,
 	    							paneDessin.getChildren().get(lastClickedIndex).getLayoutY() + ajustY1,
@@ -787,7 +830,7 @@ public class FactoryController {
 	    				}
 					}
 					
-						
+					event.consume();
                 }  		
     	});
 		

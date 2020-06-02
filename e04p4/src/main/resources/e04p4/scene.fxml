@@ -29,7 +29,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#SaveFXML" text="Save to .xml" />
                         <MenuItem mnemonicParsing="false" onAction="#SaveImage" text="Save Image" />
                         <MenuItem mnemonicParsing="false" onAction="#Open" text="Open from .txt" />
-                        <MenuItem mnemonicParsing="false" onAction="#Open" text="Open from .xml" />
+                        <MenuItem mnemonicParsing="false" onAction="#OpenFXML" text="Open from .xml" />
                         <MenuItem fx:id="menuClose1" mnemonicParsing="false" onAction="#menuCloseClicked" text="Close" />
                   </items>
                 </Menu>
