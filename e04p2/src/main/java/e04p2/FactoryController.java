@@ -1,17 +1,7 @@
 package e04p2;
 
-import java.awt.image.RenderedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Vector;
-
-import javax.imageio.ImageIO;
-
 import e04p2.MyShapes.EShape;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,8 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -33,7 +21,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -189,26 +176,22 @@ public class FactoryController {
 	}
 	
 	@FXML
+	// BOUTON POUR CHANGER DE MODE
     void buttonArrowsClicked(ActionEvent event) {
 		state.changeState(this);
 		labelStatusBar.setText(state.toString());
-
 	}
 	
 	@FXML
     void simpleArrowClicked(ActionEvent event) {
 		state.simpleRedArrow(this);
-
 	}
 	
 	@FXML
     void doubleArrowClicked(ActionEvent event) {
 		state.doubleBlackArrow(this);
-
 	}
 
-    	
-    
     @FXML
     void menuCloseClicked(ActionEvent event) {
     	labelStatusBar.setText("Fermeture de l'application...");
@@ -234,9 +217,6 @@ public class FactoryController {
         paneDessin.getChildren().clear();
     }
     
-   
-    
-    
     @FXML
     void initialize() {
     	// STATE PATTERN
@@ -246,8 +226,10 @@ public class FactoryController {
     	Vindex = 0;
     	v = new Vector<MyShapes>();  
     	myBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5)));
-    	
     	paneDessin.setBorder(myBorder);
+    	
+    	// DRAG AND DROP
+    	
     	paneDessin.setOnDragEntered(new EventHandler<DragEvent>() {
 			@Override	
 			public void handle(DragEvent event) {
@@ -279,8 +261,8 @@ public class FactoryController {
                 }  		
     	});
     	
+    	// AJOUT DES COMPOSANTS DANS LA PALETTE
     	
-
     	//Energy source
     	MyShapes energySource = new MyShapes(EShape.EnergySource);
     	gridPane1.add(energySource, 0, 0);
@@ -526,6 +508,7 @@ public class FactoryController {
     	}); 
     }
    	
+    // AJOUT D'UNE FORME
 	public void addShape(EShape eshape, double x, double y)
 	{
 		MyShapes myShape = new MyShapes(eshape);
@@ -567,6 +550,7 @@ public class FactoryController {
 			
 		});
 		
+		// AJOUT D'UNE FLÈCHE EN CLIQUANT SUR DEUX FORMES
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {

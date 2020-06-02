@@ -1,8 +1,6 @@
 package e04p2;
 
 import e04p2.MyShapes.EShape;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 //This class makes part of the design pattern STATE PATERN together with class State and DrawState
 public class ConnectionState implements State {

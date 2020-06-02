@@ -16,11 +16,13 @@ public class DrawState implements State {
 	
 	public void simpleRedArrow(FactoryController fController)
 	{
+		// PAS D'ACTION, PAS LE BON MODE
 		fController.setStatusBarMessage("You must be in Arrow Mode.");
 	}
 	
 	public void doubleBlackArrow(FactoryController fController)
 	{
+		// PAS D'ACTION, PAS LE BON MODE
 		fController.setStatusBarMessage("You must be in Arrow Mode.");
 	}
 	
@@ -33,8 +35,5 @@ public class DrawState implements State {
 	{
 		return "Mode dessin (draw state)";
 	}
-
-	
-	
 
 }

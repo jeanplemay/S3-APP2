@@ -170,6 +170,7 @@ public class FactoryController {
 	
 	
 	@FXML
+	// BOUTON POUR CHANGER DE MODE
     void buttonArrowsClicked(ActionEvent event) {
     	labelStatusBar.setText("Mode arrows");
     	
@@ -243,8 +244,10 @@ public class FactoryController {
     	Vindex = 0;
     	v = new Vector<MyShapes>();  
     	myBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5)));
-    	
     	paneDessin.setBorder(myBorder);
+    	
+    	// DRAG AND DROP
+    	
     	paneDessin.setOnDragEntered(new EventHandler<DragEvent>() {
 			@Override	
 			public void handle(DragEvent event) {
@@ -275,6 +278,7 @@ public class FactoryController {
     	});
     	
     	
+    	// AJOUR DES COMPOSANTS DANS LA PALETTE
 
     	//Energy source
     	MyShapes energySource = new MyShapes(EShape.EnergySource);
@@ -536,6 +540,7 @@ public class FactoryController {
     	}); 
     }
    	
+    // Ajout d'une forme
 	public void addShape(EShape eshape, double x, double y)
 	{
 		Command co = new AddShapeCommand(this,eshape,x,y);
@@ -544,6 +549,7 @@ public class FactoryController {
 
 	}
 	
+	// Déplacement d'une forme
 	public void moveShape(EShape eshape, double x, double y)
 	{
 		Command co = new MoveShapeCommand(this,eshape,x,y);
@@ -552,6 +558,7 @@ public class FactoryController {
 
 	}
 	
+	//Ajout d'une flèche
 	public void addArrow(double x1, double y1, double x2, double y2)
 	{
 		Command co = new AddArrowCommand(this,EShape.Arrow,x1,y1,x2,y2);

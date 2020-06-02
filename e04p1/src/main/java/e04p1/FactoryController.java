@@ -1,19 +1,10 @@
 package e04p1;
 
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Vector;
-
-import javax.imageio.ImageIO;
-
 import e04p1.MyShapes.EShape;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -21,9 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -37,7 +25,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
-import javafx.stage.FileChooser;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -46,7 +33,6 @@ import javafx.scene.input.TransferMode;
 
 //This class makes part of the design pattern MVC together with class MyShapes and scene.fxml
 public class FactoryController {
-	
 	
 	Vector<MyShapes> v;
 	
@@ -133,15 +119,15 @@ public class FactoryController {
     
     @FXML
     private Button buttonArrows;
-   
-      
     
     @FXML
+    // BOUTTON POUR CHANGER DE MODE 
     void buttonArrowsClicked(ActionEvent event) {
     	labelStatusBar.setText("Mode arrows");
     	
     	if(this.mode == 0)
     	{
+    		// SET MODE ARROWS
     		mode = 1;
     		titledPane1.setExpanded(false);
         	titledPane2.setExpanded(false);
@@ -184,6 +170,7 @@ public class FactoryController {
     	
     	else if(this.mode == 1)
     	{
+    		//SET MODE DESSIN
     		mode = 0;
     		titledPane1.setCollapsible(true);
         	titledPane2.setCollapsible(true);
@@ -215,12 +202,15 @@ public class FactoryController {
     }
 
     @FXML
+    // Initialisation de l'interface
     void initialize() {
     	Vindex = 0;
     	v = new Vector<MyShapes>();  
     	myBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5)));
-    	
     	paneDessin.setBorder(myBorder);
+    	
+    	//DRAG AND DROP
+    	
     	paneDessin.setOnDragEntered(new EventHandler<DragEvent>() {
 			@Override	
 			public void handle(DragEvent event) {
@@ -250,6 +240,7 @@ public class FactoryController {
     	});
     	
     	
+    	// AJOUT DES COMPOSANTS DANS LA PALETTE
 
     	//Energy source
     	MyShapes energySource = new MyShapes(EShape.EnergySource);
@@ -496,6 +487,7 @@ public class FactoryController {
     	}); 
     }
    	
+    // Méthode pour ajouter un element
 	public void addShape(EShape eshape, double x, double y)
 	{
 		MyShapes myShape = new MyShapes(eshape);
