@@ -239,7 +239,7 @@ public class FactoryController {
         event.consume();
     }
     @FXML
-    void openFXML(ActionEvent event) {
+    void OpenFXML(ActionEvent event) {
     	labelStatusBar.setText("Opening From xml...");
     	FileChooser fileChooser = new FileChooser();
 
@@ -251,9 +251,77 @@ public class FactoryController {
         paneDessin.getChildren().clear();
         
         
-        //	STUFF...
-        
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            double x;
+            double y;
+            EShape tempShape;
+            while ((line = reader.readLine()) != null) {
+	        	 line.trim();
+            	 String[] splited = line.split(" ");
+            	 x = Double.parseDouble(splited[0]);
+            	 y = Double.parseDouble(splited[1]);
+            	 tempShape = EShape.valueOf(splited[2]);
+ 				if(tempShape == EShape.SimpleArrow || tempShape == EShape.DoubleArrow) {
+ 					int lastClickedIndex = ((int)x);
+ 					int clickedIndex = ((int)y);
+ 				// TYPES DE FORMES
+					EShape eshape1 = ((MyShapes) paneDessin.getChildren().get(lastClickedIndex)).getMyEShape();
+					EShape eshape2 = ((MyShapes) paneDessin.getChildren().get(clickedIndex)).getMyEShape();
+					
+					// AJUSTEMENTS POUR LES CARR�S
+					double ajustX1 = paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getWidth();
+					double ajustY1 = paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getHeight()/2;
+					double ajustX2 = 0;
+					double ajustY2 = paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getHeight()/2;
+					if(paneDessin.getChildren().get(lastClickedIndex).getLayoutX() >
+						paneDessin.getChildren().get(clickedIndex).getLayoutX())
+					{
+						ajustX1 =0;
+						ajustX2 = paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getWidth();
+					}
+					
+					// AJUSTEMENTS SI LA FORME DE D�PART EST UN ROND/OVALE 
+					if(eshape1 == EShape.EnergySource || eshape1 == EShape.MultiPhysicalConverter ||
+							eshape1 == EShape.EnergySourceEstimator || eshape1 == EShape.MultiPhysicalConverterEstimator)
+					{
+						ajustX1 /= 2;
+						ajustY1 = 0;
+						if(paneDessin.getChildren().get(lastClickedIndex).getLayoutX() >
+						paneDessin.getChildren().get(clickedIndex).getLayoutX())
+    					{
+    						ajustX1 = -paneDessin.getChildren().get(lastClickedIndex).getLayoutBounds().getWidth() /2;
+    					}
+					}
+					
+					// AJUSTEMENTS SI LA FORME D'ARRIV�E EST UN ROND/OVALE 
+					if(eshape2 == EShape.EnergySource || eshape2 == EShape.MultiPhysicalConverter ||
+							eshape2 == EShape.EnergySourceEstimator || eshape2 == EShape.MultiPhysicalConverterEstimator)
+					{
+						ajustX2 = -paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getWidth() /2;
+						ajustY2 = 0;
+						if(paneDessin.getChildren().get(lastClickedIndex).getLayoutX() >
+						paneDessin.getChildren().get(clickedIndex).getLayoutX())
+    					{
+    						ajustX2 = paneDessin.getChildren().get(clickedIndex).getLayoutBounds().getWidth() /2;
+    					}
+					}
+				
+ 					MyShapes arrow = new MyArrow(tempShape,
+ 							v.get((int) x).getX()+ajustX1,
+ 							v.get((int) x).getY()+ajustY1,
+ 							v.get((int) y).getX()+ajustX2,
+ 							v.get((int) y).getY()+ajustY2,
+ 							(int)x, (int)y);
+					paneDessin.getChildren().add(arrow);
+					v.add(arrow);
+ 				}else	addShape(tempShape, x, y);
+             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         event.consume();
+        
     }
     
     @FXML
@@ -261,12 +329,37 @@ public class FactoryController {
     	labelStatusBar.setText("Saving to xml...");
     	FileChooser fileChooser = new FileChooser();
 
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
-        fileChooser.setInitialFileName("myCanvas.txt");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files (*.xml)", "*.xml"));
+        fileChooser.setInitialFileName("myCanvas.xml");
         
-        //	STUF...
-        
-        event.consume();
+        EShape shapeWrite;
+		try{
+			FileWriter file = new FileWriter(fileChooser.showSaveDialog(null));
+			for(int i = 0; i < v.size(); i++)
+			{
+				if(v.elementAt(i).getMyEShape() == EShape.SimpleArrow || v.elementAt(i).getMyEShape() == EShape.DoubleArrow)
+				{
+					file.write("<MyShapes index1=" + (char)'"');
+					file.write((int) ((MyArrow) v.elementAt(i)).getStartShapeIndex() + "");
+					file.write((char)'"' + " index2=" + (char)'"');
+					file.write((int) ((MyArrow) v.elementAt(i)).getEndShapeIndex() +"");
+				} else {
+					file.write("<MyShapes x=" + (char)'"');
+					file.write((int) v.elementAt(i).getX() + "");
+					file.write((char)'"' + " y=" + (char)'"');
+					file.write((int) v.elementAt(i).getY() + "");
+				}
+				shapeWrite = v.elementAt(i).getMyEShape();
+				file.write((char)'"' + " eshape=" + (char)'"');
+				file.write(shapeWrite.toString()+(char)'"' + ">\n");				
+			}
+			file.close();
+            labelStatusBar.setText("Saved");
+		} catch (IOException e){
+			e.printStackTrace();               
+			labelStatusBar.setText("Fichier Introuvable");
+		}
+		event.consume();
     }
       
     @FXML
