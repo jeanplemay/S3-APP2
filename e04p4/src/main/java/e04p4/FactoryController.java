@@ -346,7 +346,6 @@ public class FactoryController {
                  e.printStackTrace();
              }		
         
-        event.consume();
     }
     
     @FXML
@@ -354,12 +353,37 @@ public class FactoryController {
     	labelStatusBar.setText("Saving to xml...");
     	FileChooser fileChooser = new FileChooser();
 
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
-        fileChooser.setInitialFileName("myCanvas.txt");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files (*.xml)", "*.xml"));
+        fileChooser.setInitialFileName("myCanvas.xml");
         
-        
-        
-        event.consume();
+        EShape shapeWrite;
+		try{
+			FileWriter file = new FileWriter(fileChooser.showSaveDialog(null));
+			for(int i = 0; i < v.size(); i++)
+			{
+				if(v.elementAt(i).getMyEShape() == EShape.SimpleArrow || v.elementAt(i).getMyEShape() == EShape.DoubleArrow)
+				{
+					file.write("<MyShapes index1=" + (char)'"');
+					file.write((int) ((MyArrow) v.elementAt(i)).getStartShapeIndex() + "");
+					file.write((char)'"' + " index2=" + (char)'"');
+					file.write((int) ((MyArrow) v.elementAt(i)).getEndShapeIndex() +"");
+				} else {
+					file.write("<MyShapes x=" + (char)'"');
+					file.write((int) v.elementAt(i).getX() + "");
+					file.write((char)'"' + " y=" + (char)'"');
+					file.write((int) v.elementAt(i).getY() + "");
+				}
+				shapeWrite = v.elementAt(i).getMyEShape();
+				file.write((char)'"' + " eshape=" + (char)'"');
+				file.write(shapeWrite.toString()+(char)'"' + ">\n");				
+			}
+			file.close();
+            labelStatusBar.setText("Saved");
+		} catch (IOException e){
+			e.printStackTrace();               
+			labelStatusBar.setText("Fichier Introuvable");
+		}
+		event.consume();
     }
       
     @FXML
