@@ -38,6 +38,7 @@ public class MyShapes extends Group {
 	public double x;
 	public double y;
 	public int index;
+	public int id;
 	public EShape myEShape;
 	
 	MyShapes(EShape eshape, double startX, double startY, double endX, double endY )
@@ -338,5 +339,13 @@ public class MyShapes extends Group {
 
 	public void setIndex(int i) {
 		this.index = i;
+	}
+	
+	public int getID() {
+		return id;
+	}
+
+	public void setID(int i) {
+		this.id = i;
 	}
 }

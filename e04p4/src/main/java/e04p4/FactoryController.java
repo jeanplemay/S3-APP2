@@ -48,8 +48,8 @@ public class FactoryController {
 	
 	EShape draggedShape;
 	int draggedIndex;
-	int deleteIndex;
-	int Vindex;
+	int deleteID;
+	int Vid = 0;
 	
 	Border myBorder;
 	
@@ -340,6 +340,7 @@ public class FactoryController {
      					paneDessin.getChildren().add(arrow);
      					v.add(arrow);
       				}else	addShape(tempShape, x, y);
+            		 labelStatusBar.setText("Opened");
                   }
             }
              } catch (IOException e) {
@@ -462,6 +463,7 @@ public class FactoryController {
 					paneDessin.getChildren().add(arrow);
 					v.add(arrow);
  				}else	addShape(tempShape, x, y);
+ 				labelStatusBar.setText("Opened");
              }
         } catch (IOException e) {
             e.printStackTrace();
@@ -529,7 +531,6 @@ public class FactoryController {
     	state = new DrawState(this);
     	labelStatusBar.setText(state.toString());
     	
-    	Vindex = 0;
     	v = new Vector<MyShapes>();  
     	myBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.5)));
     	
@@ -834,9 +835,9 @@ public class FactoryController {
 		paneDessin.getChildren().add(myShape);	
 		myShape.setX(x);
 		myShape.setY(y);
+		myShape.setID(Vid++);
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutX(x);
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setLayoutY(y);
-		//myShape.setIndex(Vindex);
 		paneDessin.getChildren().get(paneDessin.getChildren().size() - 1).setOnDragDetected(new EventHandler<MouseEvent>(){
 
 			@Override
@@ -851,6 +852,7 @@ public class FactoryController {
 					if(paneDessin.getChildren().get(i).equals(((Node) event.getSource())))
 					{
 						draggedIndex = i;
+						deleteID = ((MyShapes) event.getSource()).getID();
 						break;
 					}
 				}
@@ -862,7 +864,14 @@ public class FactoryController {
 
 			@Override
 			public void handle(DragEvent event) {
-				//v.remove(((MyShapes) paneDessin.getChildren().get(draggedIndex)).getIndex());
+				for(int i = 0; i < v.size(); i++)
+				{
+					if(v.elementAt(i).getID() == deleteID)
+					{
+						v.remove(i);
+						break;
+					}
+				}
 				paneDessin.getChildren().remove(draggedIndex);
 				event.consume();
 			}
