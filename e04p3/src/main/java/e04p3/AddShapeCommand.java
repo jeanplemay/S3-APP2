@@ -4,11 +4,12 @@ import e04p3.MyShapes.EShape;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
+//This class makes part of the design pattern COMMAND with class FactoryController, Invoker, Command,
+//AddShapeCommand, AddArrowCommand and MoveShape Command;
 public class AddShapeCommand extends Command{
 
 	private FactoryController fController;
@@ -46,14 +47,6 @@ public class AddShapeCommand extends Command{
 						break;
 					}
 				}
-			}
-			
-		});
-		fController.getPaneDessin().getChildren().get(fController.getPaneDessin().getChildren().size() - 1).setOnDragDone(new EventHandler<DragEvent>() {
-
-			@Override
-			public void handle(DragEvent event) {
-				fController.getPaneDessin().getChildren().remove(fController.getDraggedIndex());					
 			}
 			
 		});

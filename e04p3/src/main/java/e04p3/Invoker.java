@@ -2,6 +2,8 @@ package e04p3;
 
 import java.util.Vector;
 
+//This class makes part of the design pattern COMMAND with class FactoryController, Invoker, Command,
+//AddShapeCommand, AddArrowCommand and MoveShape Command;
 public class Invoker {
 
 	private FactoryController fController;
@@ -39,10 +41,10 @@ public class Invoker {
 	}
 	
 	public void addCommand(Command command){
-//		for(int i=commandList.size(); i>currentCommand-1; i-- )
-//		{
-//			commandList.remove(i);
-//		}
+		for(int i=commandList.size()-1; i>currentCommand; i-- )
+		{
+			commandList.remove(i);
+		}
 		commandList.add(command);
 		currentCommand++;
 		System.out.println(currentCommand);

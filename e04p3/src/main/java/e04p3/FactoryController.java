@@ -1,29 +1,15 @@
 package e04p3;
 
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Vector;
-
-import javax.imageio.ImageIO;
-
 import e04p3.MyShapes.EShape;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -34,15 +20,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
-import javafx.scene.transform.Rotate;
-import javafx.stage.FileChooser;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+
+//This class makes part of the design pattern COMMAND with class FactoryController, Invoker, Command,
+//AddShapeCommand, AddArrowCommand and MoveShape Command;
 
 //This class makes part of the design pattern MVC together with class MyShapes and scene.fxml
 public class FactoryController {
@@ -211,18 +196,6 @@ public class FactoryController {
 	    				}
 	    				else
 	    				{
-//	    					Shape line = new Line(arrowBeginX,arrowBeginY,event.getX(),event.getY());
-//	    					double width = event.getX()-arrowBeginX;
-//	    					double height = arrowBeginY-event.getY();
-//	    					double angle = Math.toDegrees(Math.atan(height/width));
-//	    					if(width < 0) angle += 180;
-//	    					if(angle < 0) angle += 360;
-//	    					Shape line2 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()-5);
-//	    					line2.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
-//	    					Shape line3 = new Line(event.getX(),event.getY(),event.getX()-5,event.getY()+5);
-//	    					line3.getTransforms().add(new Rotate(-angle, event.getX(), event.getY()) );
-//	    					Group arrow = new Group(line,line2,line3) ;
-//	    					paneDessin.getChildren().add(arrow);
 	    					addArrow(arrowBeginX,arrowBeginY,event.getX(),event.getY());
 	    					arrowBeginX = -1;
 	    					arrowBeginY = -1;
@@ -295,7 +268,8 @@ public class FactoryController {
     	paneDessin.setOnDragDropped(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(DragEvent event) {	
-				addShape(draggedShape, event.getSceneX() - 166, event.getSceneY() - 50);
+				if(draggedIndex == -1) addShape(draggedShape, event.getSceneX() - 166, event.getSceneY() - 50);
+				else moveShape(draggedShape, event.getSceneX() - 166, event.getSceneY() - 50);
                 event.consume();
                 }  		
     	});
@@ -314,7 +288,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.EnergySource;		
+				draggedShape = EShape.EnergySource;
+				draggedIndex =-1;
 			}    		
     	});
  	
@@ -330,7 +305,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MonoPhysicalConverter;		
+				draggedShape = EShape.MonoPhysicalConverter;
+				draggedIndex =-1;
 			}    		
     	});
     	
@@ -346,7 +322,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MultiPhysicalConverter;		
+				draggedShape = EShape.MultiPhysicalConverter;
+				draggedIndex =-1;
 			}    		
     	});  	
     	
@@ -362,7 +339,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.EnergyAccumulation;		
+				draggedShape = EShape.EnergyAccumulation;
+				draggedIndex =-1;
 			}    		
     	}); 
     	
@@ -378,7 +356,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MonoPhysicalCoupling;		
+				draggedShape = EShape.MonoPhysicalCoupling;
+				draggedIndex =-1;
 			}    		
     	}); 
     	
@@ -394,7 +373,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MultiPhysicalCoupling;		
+				draggedShape = EShape.MultiPhysicalCoupling;
+				draggedIndex =-1;
 			}    		
     	}); 
     	
@@ -410,7 +390,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.DirectInversion;		
+				draggedShape = EShape.DirectInversion;
+				draggedIndex =-1;
 			}    		
     	}); 
     	
@@ -427,7 +408,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.IndirectInversion;		
+				draggedShape = EShape.IndirectInversion;
+				draggedIndex =-1;
 			}    		
     	}); 
     	
@@ -444,7 +426,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.Strategy;		
+				draggedShape = EShape.Strategy;
+				draggedIndex =-1;
 			}    		
     	}); 
     	
@@ -461,7 +444,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.EnergySourceEstimator;		
+				draggedShape = EShape.EnergySourceEstimator;
+				draggedIndex =-1;
 			}    		
     	}); 
     	
@@ -477,7 +461,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MonoPhysicalConverterEstimator;		
+				draggedShape = EShape.MonoPhysicalConverterEstimator;
+				draggedIndex =-1;
 			}    		
     	});  	
     	
@@ -493,7 +478,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MultiPhysicalConverterEstimator;		
+				draggedShape = EShape.MultiPhysicalConverterEstimator;
+				draggedIndex =-1;
 			}    		
     	}); 
     	
@@ -509,7 +495,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.EnergyAccumulationEstimator;		
+				draggedShape = EShape.EnergyAccumulationEstimator;
+				draggedIndex =-1;
 			}    		
     	}); 
     	 
@@ -525,7 +512,8 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MonoPhysicalCouplingEstimator;		
+				draggedShape = EShape.MonoPhysicalCouplingEstimator;
+				draggedIndex =-1;
 			}    		
     	}); 
     	   	
@@ -542,21 +530,31 @@ public class FactoryController {
 				ClipboardContent content = new ClipboardContent();
 		        content.putString("Dragged");
 				db.setContent(content);
-				draggedShape = EShape.MultiPhysicalCouplingEstimator;		
+				draggedShape = EShape.MultiPhysicalCouplingEstimator;
+				draggedIndex =-1;
 			}    		
     	}); 
     }
    	
 	public void addShape(EShape eshape, double x, double y)
 	{
-		AddShapeCommand co = new AddShapeCommand(this,eshape,x,y);
+		Command co = new AddShapeCommand(this,eshape,x,y);
 		invoker.addCommand(co);
 		co.execute();
 
 	}
+	
+	public void moveShape(EShape eshape, double x, double y)
+	{
+		Command co = new MoveShapeCommand(this,eshape,x,y);
+		invoker.addCommand(co);
+		co.execute();
+
+	}
+	
 	public void addArrow(double x1, double y1, double x2, double y2)
 	{
-		AddArrowCommand co = new AddArrowCommand(this,EShape.Arrow,x1,y1,x2,y2);
+		Command co = new AddArrowCommand(this,EShape.Arrow,x1,y1,x2,y2);
 		invoker.addCommand(co);
 		co.execute();
 

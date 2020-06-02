@@ -1,18 +1,9 @@
 package e04p3;
 
 import e04p3.MyShapes.EShape;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
-import javafx.scene.transform.Rotate;
 
+//This class makes part of the design pattern COMMAND with class FactoryController, Invoker, Command,
+//AddShapeCommand, AddArrowCommand and MoveShape Command;
 public class AddArrowCommand extends Command {
 	private FactoryController fController;
 	private EShape eshape;
